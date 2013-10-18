@@ -31,13 +31,13 @@
 <html>
 	<head>
 		<title>Registro</title>
-		<link href='css/css.css' type='text/css' rel='stylesheet'>
+		<link href='../static/css/css.css' type='text/css' rel='stylesheet'>
 		<script src="jquery-1.8.3.js"></script>
 	</head>
 	<body>
 	  <div id='container'>
 		<div id='header'>
-			<img src='images/logo.jpg' alt=""/>
+			<img src='../static/images/logo.jpg' alt=""/>
 		    <ul id="menu-top" >
 				<li><a href="index.php">Inicio</a></li>
 				<li> | </li>
@@ -49,7 +49,7 @@
 		<div id='main'>
 			<div id="formulario-reg">
 				<h1 class="title"> Iniciar una cuenta </h1>
-				<form action="resul.php"  method="post">
+				<form action="../controllers/resul.php"  method="post">
 					
 					<div class="izq label">Nombre:</div>
 					<input  name="nombre" class="input der username"  type="text" value="" size="30"/>
@@ -83,21 +83,21 @@
 				<h2 class='subtitulo'> Usilsoft</h2>
 			
 				<div class="box">
-					<img src="images/favorites.png" alt="" class="dmco_image">
+					<img src="../static/images/favorites.png" alt="" class="dmco_image">
 					<div class="dmco_html"><span>Administracion de <b>restaurantes</b></span></div>
 				</div>
 				<div class="box">
-					<img src="images/editorial.png" alt="" class="dmco_image">
+					<img src="../static/images/editorial.png" alt="" class="dmco_image">
 					<div class="dmco_html"><span><b>Selecciones de calidad con contenido editorializado</b></span></div>
 				</div>
 				
 				<div class="box">
-					<img src="images/categories.png" alt="" class="dmco_image">
+					<img src="../static/images/categories.png" alt="" class="dmco_image">
 					<div class="dmco_html"><span>Usilsoft</b></span></div>
 				</div>
 				
 				<div class="box">
-					<img src="images/world.png" alt="" class="dmco_image">
+					<img src="../static/images/world.png" alt="" class="dmco_image">
 					<div class="dmco_html"><span>USILSOFT</b></span></div>
 				</div>
 			</div>

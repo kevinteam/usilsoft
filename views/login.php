@@ -13,7 +13,7 @@
 	}
 	else
 	{
-		header("Location: index.php");
+		header("Location: views/index.php");
 		exit();
 	}
 ?>
@@ -21,12 +21,12 @@
 <html>
 	<head>
 		<title>login</title>
-		<link href='css/css.css' type='text/css' rel='stylesheet'/>
+		<link href='../static/css/css.css' type='text/css' rel='stylesheet'/>
 	</head>
 	<body>
 	  <div id='container'>
 		<div id='header'>
-		<img src='images/logo.jpg' alt=""/>
+		<img src='../static/images/logo.jpg' alt=""/>
 			    <ul id="menu-top" >
 					<li><a href="index.php">Inicio</a></li>
 					<li> | </li>
@@ -41,7 +41,7 @@
 			<h1 id="titulo">Iniciar sesión - Miembros</h1>
 			<div class="logueo-cuerpo">
 				<div id="formulario">
-					<form action="convalidacion.php"  method="post">
+					<form action="../controllers/convalidacion.php"  method="post">
 						<div class="izq label">Usuario:</div>
 						<input id="username" name="usuario" class="input der"  type="text" value="" size="30">
 						<div style="clear:both"></div>

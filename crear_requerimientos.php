@@ -32,7 +32,7 @@
 	<body>
 		<div id='container'>
 			<header>
-				<img src='images/logo.jpg' alt="logo">
+				<img src='static/images/logo.jpg' alt="logo">
 			    <ul id="menu-top" >
 					<li><a href="index.php">Inicio</a></li>
 					<li> | </li>

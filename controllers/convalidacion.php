@@ -14,12 +14,12 @@
 	$contrasena=md5($_POST['password']);
 
 	/* CONEXION BASE DE DATOS */
-		include_once("modulo/conexion.php");
+		include_once("../modulo/conexion.php");
 		mysql_connect($server,$mysqllogin,$mysqlpass) or die(mysql_error());
 		mysql_select_db($db) or die(mysql_error());
 	/* FIN CONEXION BASE DE DATOS */
 
-	$sql="SELECT USERID,USERNAME FROM User WHERE USERNAME='$usuario' AND PASSWORD = '$contrasena' " ;
+	$sql="SELECT userID,userName FROM Users WHERE userName='$usuario' AND password = '$contrasena' " ;
 	$resultado = mysql_query($sql) or die(mysql_error()) ;
 
 	$user = array();
@@ -32,16 +32,16 @@
 		#asumo que los datos son correctos
 		foreach($user as $u)
 		{
-			$_SESSION['usuario']=$u['USERID'];
+			$_SESSION['usuario']=$u['userID'];
 			$_SESSION['nombre_usuario']=$usuario;
 		}
 		#redireccionamos al usuario logueado
-		header('Location: index.php');
+		header('Location: ../views/index.php');
 		exit();
 	}
 	else
 	{
-		header('Location: login.php?cod_error=2');
+		header('Location: ../views/login.php?cod_error=2');
 		exit();
 	}
 ?>
