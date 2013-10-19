@@ -15,7 +15,7 @@
 			/* FIN CONEXION BASE DE DATOS */
 
 			/* LISTA REQUERIMIENTOS */
-			$query = "SELECT * FROM OrdersLists, Orders, Suppliers WHERE OrdersLists.orderListID = Orders.orderListID AND Orders.supplierID = Suppliers.supplierID";
+			$query = "SELECT * FROM OrdersLists, Orders, Suppliers, States WHERE OrdersLists.orderListID = Orders.orderListID AND Orders.supplierID = Suppliers.supplierID AND Orders.stateID = States.stateID";
 			$resultado = mysql_query($query) or die(mysql_error());
 			mysql_close();
 			$lista = array();
@@ -36,60 +36,134 @@
 		exit();
 	}
 ?>
-<!doctype html>
-<html lang="es">
-	<head>
-		<meta charset="UTF-8">
-		<title>Ordenes de Compras</title>
-		<link href='../static/css/css.css' type='text/css' rel='stylesheet'>
-	</head>
-	<body>
-		<div id='container'>
-			<header>
-				<img src='../static/images/logo.jpg' alt="logo">
-			    <ul id="menu-top" >
-					<li><a href="index.php">Inicio</a></li>
-					<li> | </li>
-					<li><a  href="../controllers/logout.php">Logout</a></li>
-					<li> | </li>
-					<li><?php if(isset($_SESSION['nombre_usuario'])) echo $_SESSION['nombre_usuario']; ?></li>
-				</ul>
-			</header>
-			<article>
-				<section>
-					<table border="1" style="width:100%">
-						<thead>
-							<tr>
-								<th>ID ORDEN DE COMPRA</th>
-								<th>PROVEEDOR</th>
-								<th>FECHA DE CREACION</th>
-								<th>FECHA DE ENTREGA</th>
-								<th>ESTADO</th>
-							</tr>
-						</thead>
-						<tbody>
-<?php					foreach ($lista as $r)
-						{ ?>
-							<tr>
-								<td><?php echo $r['orderID']; ?></td>
-								<td><?php echo $r['supplier']; ?></td>
-								<td><?php echo $r['creationDate']; ?></td>
-								<td><?php echo $r['deliveryDate']; ?></td>
-								<td><?php echo $r['state']; ?></td>
-							</tr>
-<?php					} ?>
-						</tbody>
-						<tfoot>							
-						</tfoot>
-					</table>
-				</section>
-				<aside>
-					<a href="orders_lists_creation.php">Crear Lista de Ordenes de Compra</a>
-					<a href="orders_lists_update.php">Modificar Lista de Ordenes</a>
-					<a href="index.php">Volver</a>
-				</aside>
-			</article>
-			<footer>
-			</footer>
-	</body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Adamina' rel='stylesheet' type='text/css'>   
+    <script src="js/jquery-1.6.3.min.js" type="text/javascript"></script>
+    <script src="js/cufon-yui.js" type="text/javascript"></script>
+    <script src="js/cufon-replace.js" type="text/javascript"></script>
+    <script src="js/Lobster_13_400.font.js" type="text/javascript"></script>
+    <script src="js/NewsGoth_BT_400.font.js" type="text/javascript"></script>
+    <script src="js/FF-cash.js" type="text/javascript"></script>
+    <script src="js/easyTooltip.js" type="text/javascript"></script>
+	<script src="js/script.js" type="text/javascript"></script>
+    <script src="js/bgSlider.js" type="text/javascript"></script>
+	<!--[if lt IE 7]>
+    <div style=' clear: both; text-align:center; position: relative;'>
+        <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+        	<img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." />
+        </a>
+    </div>
+	<![endif]-->
+    <!--[if lt IE 9]>
+   		<script type="text/javascript" src="js/html5.js"></script>
+        <link rel="stylesheet" href="css/ie.css" type="text/css" media="screen">
+	<![endif]-->
+</head>
+<body id="page4">
+	<div id="bgSlider"></div>
+    <div class="bg_spinner"></div>
+	<div class="extra">
+        <!--==============================header=================================-->
+        <header>
+        	<div class="top-row">
+            	<div class="main">
+                	<div class="wrapper">
+                        <h1><a href="index.html">GoodCook</a></h1>
+                        <ul class="pagination">
+                            <li class="current"><a href="images/bg-img1.jpg">1</a></li>
+                            <li><a href="images/bg-img2.jpg">2</a></li>
+                            <li><a href="images/bg-img3.jpg">3</a></li>
+                        </ul>
+                        <strong class="bg-text">Background:</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-row">
+            	<div class="menu-border">
+                	<div class="main">
+                        <nav>
+                            <ul class="menu">
+                                <li><a href="index.php">Inicio</a></li>
+                                <li><a class="active" href="orders_lists.php">Lista de Ordenes</a></li>
+                                <li><a href="#">Kardex</a></li>
+                                <li><a href="#">Datos</a></li>
+                                <li><a href="#">Ayuda</a></li>
+                                <li class="last"><a href="../controllers/logout.php">Logout</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!--==============================content================================-->
+        <div class="inner">
+            <div class="main">
+                <section id="content">
+                    <div class="indent">
+                    	<div class="wrapper">
+		                    <table border="1" style="width:100%">
+								<thead>
+									<tr>
+										<th>ID ORDEN DE COMPRA</th>
+										<th>PROVEEDOR</th>
+										<th>FECHA DE CREACION</th>
+										<th>FECHA DE ENTREGA</th>
+										<th>ESTADO</th>
+									</tr>
+								</thead>
+								<tbody>
+<?php							foreach ($lista as $r)
+								{ ?>
+									<tr>
+										<td><?php echo $r['orderID']; ?></td>
+										<td><?php echo $r['supplier']; ?></td>
+										<td><?php echo $r['creationDate']; ?></td>
+										<td><?php echo $r['deliveryDate']; ?></td>
+										<td><?php echo $r['state']; ?></td>
+									</tr>
+<?php							} ?>
+								</tbody>
+								<tfoot>							
+								</tfoot>
+							</table>
+							<ul>
+								<li><a href="orders_lists_creation.php">Crear Lista de Ordenes de Compra</a></li>
+								<li><a href="orders_lists_update.php">Modificar Lista de Ordenes</a></li>
+								<li><a href="index.php">Volver</a></li>						
+							</ul>
+                        </div>
+                    </div>
+                </section>
+                <div class="block"></div>
+            </div>
+        </div>
+    </div>
+	<!--==============================footer=================================-->
+    <footer>
+    	<div class="padding">
+        	<div class="main">
+                <div class="wrapper">
+                	<div class="fleft footer-text">
+                    	<span>Administrador de Restaurantes - Logistica </span> &copy; 2013
+                        <strong>Desarrollado por <a rel="nofollow" class="link" target="_blank" href="#">Usilsoft</a></strong>
+                    </div>
+                    <ul class="list-services">
+                    	<li>Conectate con Nosotros:</li>
+                    	<li><a class="tooltips" title="facebook" href="#"></a></li>
+                        <li class="item-1"><a class="tooltips" title="twitter" href="#"></a></li>
+                        <li class="item-2"><a class="tooltips" title="linkedin" href="#"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script type="text/javascript"> Cufon.now(); </script>
+</body>
 </html>

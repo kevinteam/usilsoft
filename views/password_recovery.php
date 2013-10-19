@@ -1,32 +1,3 @@
-<?php
-    session_start();
-    $logeado = (isset($_SESSION['usuario']) && isset($_SESSION['nombre_usuario'])) ? true : false;
-    if($logeado)
-    {
-        header("Location: index.php");
-    }
-    $mensaje_error="";
-        if(isset($_GET["errorr"])){
-        $mensaje_error="Debe ingresar todos sus datos completos";
-        }
-        
-        if (isset($_GET['error']) && $_GET['error']== '1'){
-        $mensaje_error="La clave debe tener al menos 6 caracteres";
-        }
-        
-        if (isset($_GET['error']) && $_GET['error']== '2'){
-        $mensaje_error= "La clave no puede tener más de 20 caracteres";
-        }
-        if (isset($_GET['error']) && $_GET['error']== '3'){
-        $mensaje_error = "El email ingresado es incorrecto";
-        }
-        if (isset($_GET['error']) && $_GET['error']== '4'){
-        $mensaje_error = "El nombre de usuario ya existe";
-        }
-        if (isset($_GET['error']) && $_GET['error']== '5'){
-        $mensaje_error = "Dirección de correo duplicada";
-        }       
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,8 +57,8 @@
                         <nav>
                             <ul class="menu">
                                 <li><a href="login.php">Login</a></li>
-                                <li><a class="active" href="registration.php">Registrarse</a></li>
-                                <li class="last"><a href="password_recovery.php">Recuperar Contraseña</a></li>
+                                <li><a href="registration.php">Registrarse</a></li>
+                                <li class="last active"><a href="password_recovery.php">Recuperar Contraseña</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -100,21 +71,18 @@
             <div class="main2">
                 <section class="login-content">
                     <div class="indent-login">
-                        <h3>Registrarse</h3>
+                        <h3>Recuperar Contraseña</h3>
                         <div class="p3">
-                            <form id="login-contact-form" action="../controllers/process_registration.php" method="post" enctype="multipart/form-data">                    
+                            <form id="login-contact-form" method="post" enctype="multipart/form-data">                    
                                 <fieldset>
-                                    <label class="login-label"><span class="login-text-form">Nombres:</span><input name="nombre" type="text" /></label>
-                                    <label class="login-label"><span class="login-text-form">Apellidos:</span><input name="apellido" type="text" /></label>
-                                    <label class="login-label"><span class="login-text-form">Email:</span><input name="email" type="text" /></label>
-                                    <label class="login-label"><span class="login-text-form">Nick:</span><input name="usuario" type="text" /></label>
-                                    <label class="login-label"><span class="login-text-form">Contraseña:</span><input name="contrasena" type="password" /></label>
+                                    <label class="login-label"><span class="login-text-form">Nick:</span><input name="p1" type="text" /></label>
+                                    <label class="login-label"><span class="login-text-form">Email:</span><input name="p2" type="text" /></label>
                                     <div class="wrapper">
                                         <div class="extra-wrap">
                                             <div class="clear"></div>
                                             <div class="login-buttons">
-                                                <a class="button-2" href="#" onClick="document.getElementById('login-contact-form').reset()">Limpiar</a>
-                                                <a class="button-2" href="#" onClick="document.getElementById('login-contact-form').submit()">Registrarse</a>
+                                                <a class="button-2" href="#" onClick="document.getElementById('contact-form').reset()">Limpiar</a>
+                                                <a class="button-2" href="#" onClick="document.getElementById('contact-form').submit()">Proceder</a>
                                             </div> 
                                         </div>
                                     </div>                            
@@ -122,7 +90,6 @@
                             </form>
                         </div>
                     </div>
-                    <span style= "color:red; font-size:15px;"><?php echo $mensaje_error ?></span>
                 </section>
                 <div class="block"></div>
             </div>

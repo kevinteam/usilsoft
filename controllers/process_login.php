@@ -1,11 +1,11 @@
 <?php 
 	if($_SERVER['REQUEST_METHOD'] != 'POST'){
-		header('Location: index.php');
+		header('Location: ../views/index.php');
 		exit();
 	}
 
 	if(!isset($_POST['usuario']) || $_POST['usuario'] == '' || !isset($_POST['password']) || $_POST['password'] == '' ){
-		header('Location: login.php?cod_error=1');
+		header('Location: ../views/login.php?cod_error=1');
 		exit();
 	}
 
