@@ -13,7 +13,7 @@
 	}
 	else
 	{
-		header("Location: views/index.php");
+		header("Location: index.php");
 		exit();
 	}
 ?>
@@ -32,7 +32,7 @@
 					<li> | </li>
 					<li><a href="login.php">Login</a></li>
 					<li> | </li>
-					<li><a href="registro.php">Registrarse</a></li>
+					<li><a href="registration.php">Registrarse</a></li>
 				</ul>
 		
 		</div>
@@ -41,7 +41,7 @@
 			<h1 id="titulo">Iniciar sesión - Miembros</h1>
 			<div class="logueo-cuerpo">
 				<div id="formulario">
-					<form action="../controllers/convalidacion.php"  method="post">
+					<form action="../controllers/process_login.php"  method="post">
 						<div class="izq label">Usuario:</div>
 						<input id="username" name="usuario" class="input der"  type="text" value="" size="30">
 						<div style="clear:both"></div>
@@ -54,7 +54,7 @@
 						
 						<input type="submit" class="submit izq" value="Ingresar ahora!">
 						<a href="#" class="olvido">¿Olvidó su contraseña?</a>
-						<a href="registro.php" class="registro">Soy nuevo, deseo registrarme</a>
+						<a href="registration.php" class="registro">Soy nuevo, deseo registrarme</a>
 						<div style="clear:both"></div>
 						</div>					
 					</form>				

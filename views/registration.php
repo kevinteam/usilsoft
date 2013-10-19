@@ -43,13 +43,13 @@
 				<li> | </li>
 				<li><a id="contactenos" href="login.php">Login</a></li>
 				<li> | </li>
-				<li><a href="registro.php">Registrarse</a></li>
+				<li><a href="registration.php">Registrarse</a></li>
 			</ul>
 		</div>
 		<div id='main'>
 			<div id="formulario-reg">
 				<h1 class="title"> Iniciar una cuenta </h1>
-				<form action="../controllers/resul.php"  method="post">
+				<form action="../controllers/process_registration.php"  method="post">
 					
 					<div class="izq label">Nombre:</div>
 					<input  name="nombre" class="input der username"  type="text" value="" size="30"/>

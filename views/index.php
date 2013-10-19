@@ -45,7 +45,7 @@
 				<section>
 					<h1 class="title">¿Que Desea Realizar?</h1></b>
 					<ul>
-						<li><a href="OrdersList.php">Ir a lista de Ordenes</a></li>
+						<li><a href="orders_lists.php">Ir a lista de Ordenes</a></li>
 						<li><a href="mostrar_requerimientos.php">Obtener Requerimientos</a></li>
 						<li><a href="crear_requerimientos.php">Crear Requerimientos</a></li>
 					</ul>

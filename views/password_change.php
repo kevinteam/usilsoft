@@ -27,7 +27,7 @@
 					<li> | </li>
 					<li><a href="logout.php">Logout</a></li>
 					<li> | </li>
-					<li><a href="registro.php">Registrarse</a></li>
+					<li><a href="registration.php">Registrarse</a></li>
 				</ul>
 		
 		</div>

@@ -6,22 +6,16 @@
 		if($logeado)
 		{
 			$userid = (int)($_SESSION['usuario']);
-			$name = $_POST['rName'];
-			$branch = $_POST['rBranch'];
-			$supplier = $_POST['rSupplier'];
-			$quantity = (double)($_POST['rQuantity']);
-			$unit = $_POST['rUnit'];
-			$price = (double)($_POST['rPrice']);
 			//$dt = date('m/d/Y h:i:s a', time());
 
 			/* CONEXION BASE DE DATOS */
-			include_once("modulo/conexion.php"); 
+			include_once("../modulo/conexion.php"); 
 			mysql_connect($server,$mysqllogin,$mysqlpass) or die(mysql_error());
 			mysql_select_db($db) or die(mysql_error());
 			/* FIN CONEXION BASE DE DATOS */
 
 			/* LISTA REQUERIMIENTOS */
-			$query = "SELECT * FROM ListaInsumos, User WHERE ListaInsumos.USUARIO = User.USERID";
+			$query = "SELECT * FROM OrdersLists, Orders, Suppliers WHERE OrdersLists.orderListID = Orders.orderListID AND Orders.supplierID = Suppliers.supplierID";
 			$resultado = mysql_query($query) or die(mysql_error());
 			mysql_close();
 			$lista = array();
@@ -46,17 +40,17 @@
 <html lang="es">
 	<head>
 		<meta charset="UTF-8">
-		<title>Generadro de Lista de Requerimientos</title>
-		<link href='css/css.css' type='text/css' rel='stylesheet'>
+		<title>Ordenes de Compras</title>
+		<link href='../static/css/css.css' type='text/css' rel='stylesheet'>
 	</head>
 	<body>
 		<div id='container'>
 			<header>
-				<img src='images/logo.jpg' alt="logo">
+				<img src='../static/images/logo.jpg' alt="logo">
 			    <ul id="menu-top" >
 					<li><a href="index.php">Inicio</a></li>
 					<li> | </li>
-					<li><a  href="logout.php">Logout</a></li>
+					<li><a  href="../controllers/logout.php">Logout</a></li>
 					<li> | </li>
 					<li><?php if(isset($_SESSION['nombre_usuario'])) echo $_SESSION['nombre_usuario']; ?></li>
 				</ul>
@@ -66,28 +60,22 @@
 					<table border="1" style="width:100%">
 						<thead>
 							<tr>
-								<th>LISTAID</th>
-								<th>PRODUCTO</th>
-								<th>CANTIDAD</th>
-								<th>UNIDAD</th>
-								<th>PRECIO</th>
+								<th>ID ORDEN DE COMPRA</th>
 								<th>PROVEEDOR</th>
-								<th>MARCA</th>
-								<th>USUARIO</th>
+								<th>FECHA DE CREACION</th>
+								<th>FECHA DE ENTREGA</th>
+								<th>ESTADO</th>
 							</tr>
 						</thead>
 						<tbody>
 <?php					foreach ($lista as $r)
 						{ ?>
 							<tr>
-								<td><?php echo $r['LISTAID']; ?></td>
-								<td><?php echo $r['NOMBREPRODUCTO']; ?></td>
-								<td><?php echo $r['CANTIDAD']; ?></td>
-								<td><?php echo $r['UNIDAD']; ?></td>
-								<td><?php echo $r['PRECIO']; ?></td>
-								<td><?php echo $r['PROVEEDOR']; ?></td>
-								<td><?php echo $r['MARCA']; ?></td>
-								<td><?php echo $r['USERNAME']; ?></td>
+								<td><?php echo $r['orderID']; ?></td>
+								<td><?php echo $r['supplier']; ?></td>
+								<td><?php echo $r['creationDate']; ?></td>
+								<td><?php echo $r['deliveryDate']; ?></td>
+								<td><?php echo $r['state']; ?></td>
 							</tr>
 <?php					} ?>
 						</tbody>
@@ -95,7 +83,11 @@
 						</tfoot>
 					</table>
 				</section>
-				<aside><a href="index.php">Volver</a></aside>
+				<aside>
+					<a href="orders_lists_creation.php">Crear Lista de Ordenes de Compra</a>
+					<a href="orders_lists_update.php">Modificar Lista de Ordenes</a>
+					<a href="index.php">Volver</a>
+				</aside>
 			</article>
 			<footer>
 			</footer>

@@ -6,6 +6,12 @@
 		if($logeado)
 		{
 			$userid = (int)($_SESSION['usuario']);
+			$name = $_POST['rName'];
+			$branch = $_POST['rBranch'];
+			$supplier = $_POST['rSupplier'];
+			$quantity = (double)($_POST['rQuantity']);
+			$unit = $_POST['rUnit'];
+			$price = (double)($_POST['rPrice']);
 			//$dt = date('m/d/Y h:i:s a', time());
 
 			/* CONEXION BASE DE DATOS */
@@ -15,7 +21,7 @@
 			/* FIN CONEXION BASE DE DATOS */
 
 			/* LISTA REQUERIMIENTOS */
-			$query = "SELECT * FROM OrdersLists, Orders, Suppliers WHERE OrdersLists.orderListID = Orders.orderListID AND Orders.supplierID = Suppliers.supplierID";
+			$query = "SELECT * FROM RequerimentsLists, Users WHERE RequerimentsLists.userID = User.userID";
 			$resultado = mysql_query($query) or die(mysql_error());
 			mysql_close();
 			$lista = array();
@@ -48,7 +54,7 @@
 			<header>
 				<img src='../static/images/logo.jpg' alt="logo">
 			    <ul id="menu-top" >
-					<li><a href="index.php">Inicio</a></li>
+					<li><a href="../views/index.php">Inicio</a></li>
 					<li> | </li>
 					<li><a  href="../controllers/logout.php">Logout</a></li>
 					<li> | </li>
@@ -60,22 +66,28 @@
 					<table border="1" style="width:100%">
 						<thead>
 							<tr>
-								<th>ID ORDEN DE COMPRA</th>
+								<th>LISTAID</th>
+								<th>PRODUCTO</th>
+								<th>CANTIDAD</th>
+								<th>UNIDAD</th>
+								<th>PRECIO</th>
 								<th>PROVEEDOR</th>
-								<th>FECHA DE CREACION</th>
-								<th>FECHA DE ENTREGA</th>
-								<th>ESTADO</th>
+								<th>MARCA</th>
+								<th>USUARIO</th>
 							</tr>
 						</thead>
 						<tbody>
 <?php					foreach ($lista as $r)
 						{ ?>
 							<tr>
-								<td><?php echo $r['orderID']; ?></td>
-								<td><?php echo $r['supplier']; ?></td>
-								<td><?php echo $r['creationDate']; ?></td>
-								<td><?php echo $r['deliveryDate']; ?></td>
-								<td><?php echo $r['state']; ?></td>
+								<td><?php echo $r['LISTAID']; ?></td>
+								<td><?php echo $r['NOMBREPRODUCTO']; ?></td>
+								<td><?php echo $r['CANTIDAD']; ?></td>
+								<td><?php echo $r['UNIDAD']; ?></td>
+								<td><?php echo $r['PRECIO']; ?></td>
+								<td><?php echo $r['PROVEEDOR']; ?></td>
+								<td><?php echo $r['MARCA']; ?></td>
+								<td><?php echo $r['USERNAME']; ?></td>
 							</tr>
 <?php					} ?>
 						</tbody>

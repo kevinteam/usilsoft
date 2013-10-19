@@ -1,7 +1,7 @@
 <?php 
 session_start();
 /* CONEXION BASE DE DATOS */
-	include_once("modulo/conexion.php"); 
+	include_once("../modulo/conexion.php"); 
 		mysql_connect($server,$mysqllogin,$mysqlpass) or die(mysql_error());
 		mysql_select_db($db) or die(mysql_error());
 	/* FIN CONEXION BASE DE DATOS */
@@ -12,12 +12,12 @@ session_start();
 
 /* sentencia que retorna el id del usuario q ha iniciado sesión */
 	$user = $_SESSION['nombre_usuario'];
-	$userid = mysql_query("SELECT USERID FROM user WHERE USERNAME='$user'") ;
+	$userid = mysql_query("SELECT userID FROM Users WHERE userName='$user'") ;
 	$row = mysql_fetch_assoc($userid) ;
-	$id = $row["USERID"];
+	$id = $row["userID"];
 	
 /* actualiza la tabla usuario con los datos ingresados*/
-	$query = "UPDATE user SET NAME = '$nombre', LAST = '$apellido', EMAIL = '$email' WHERE USERID = $id";
+	$query = "UPDATE Users SET name = '$nombre', last = '$apellido', email = '$email' WHERE userID = $id";
 	mysql_query($query) or die(mysql_error());
 
 	echo "<script language='Javascript'>
