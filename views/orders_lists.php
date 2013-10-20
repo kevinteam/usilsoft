@@ -15,7 +15,7 @@
 			/* FIN CONEXION BASE DE DATOS */
 
 			/* LISTA REQUERIMIENTOS */
-			$query = "SELECT * FROM OrdersLists, Orders, Suppliers, States WHERE OrdersLists.orderListID = Orders.orderListID AND Orders.supplierID = Suppliers.supplierID AND Orders.stateID = States.stateID";
+			$query = "SELECT * FROM Orders, Suppliers, States WHERE Orders.supplierID = Suppliers.supplierID AND Orders.stateID = States.stateID";
 			$resultado = mysql_query($query) or die(mysql_error());
 			mysql_close();
 			$lista = array();
@@ -75,7 +75,7 @@
         	<div class="top-row">
             	<div class="main">
                 	<div class="wrapper">
-                        <h1><a href="index.html">GoodCook</a></h1>
+                        <h1><a href="index.html">Listas de Ordenes</a></h1>
                         <ul class="pagination">
                             <li class="current"><a href="images/bg-img1.jpg">1</a></li>
                             <li><a href="images/bg-img2.jpg">2</a></li>

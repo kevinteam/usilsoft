@@ -1,0 +1,21 @@
+.align-center tr td{
+	text-align: center;
+}
+.margen-derecho{
+    margin-right: 30px;
+}
+.align-right{
+    text-align: right;
+}
+.relative-center{
+	width: 200px;
+	display: inline-block;
+}
+.orderslist-col1{
+	width:350px;
+	display:inline-block;
+}
+.orderslist-col2{
+	width:220px;
+	display:inline;
+}
