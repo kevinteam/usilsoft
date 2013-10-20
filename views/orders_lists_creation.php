@@ -6,7 +6,8 @@
         if($logeado)
         {
             $userid = (int)($_SESSION['usuario']);
-            //$dt = date('m/d/Y h:i:s a', time());
+            date_default_timezone_set('America/Lima');
+            $date = date('d/m/Y h:i:s a');
 
             /* CONEXION BASE DE DATOS */
             include_once("../modulo/conexion.php"); 
@@ -14,7 +15,17 @@
             mysql_select_db($db) or die(mysql_error());
             /* FIN CONEXION BASE DE DATOS */
 
-            /* LISTA REQUERIMIENTOS */
+            /* LISTA PROVEEDORES */
+            $query = "SELECT supplierID,supplier FROM Suppliers";
+            $resultado = mysql_query($query) or die(mysql_error());
+            $listaproveedores = array();
+            while($row = mysql_fetch_array($resultado))
+            {
+                $listaproveedores[] = $row;
+            }
+            /* FIN LISTA PROVEEDORES */
+
+            /* LISTA ORDENES */
             $query = "SELECT * FROM OrdersLists, Orders, Suppliers, States WHERE OrdersLists.orderListID = Orders.orderListID AND Orders.supplierID = Suppliers.supplierID AND Orders.stateID = States.stateID";
             $resultado = mysql_query($query) or die(mysql_error());
             mysql_close();
@@ -23,6 +34,7 @@
             {
                 $lista[] = $row;
             }
+            /* FIN LISTA ORDENES */
         }
         else
         {
@@ -45,16 +57,43 @@
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/orderslists-creation-style.css" type="text/css" media="screen">    
+    <link rel="stylesheet" href="css/jquery-ui-timepicker-addon.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" media="screen">    
     <link href='http://fonts.googleapis.com/css?family=Adamina' rel='stylesheet' type='text/css'>   
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js" type="text/javascript"></script>
+    <script>
+        jquery2 = jQuery.noConflict( true );
+    </script>
     <script src="js/jquery-1.6.3.min.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js" type="text/javascript"></script>
+    <script src="js/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
     <script src="js/cufon-yui.js" type="text/javascript"></script>
     <script src="js/cufon-replace.js" type="text/javascript"></script>
     <script src="js/Lobster_13_400.font.js" type="text/javascript"></script>
     <script src="js/NewsGoth_BT_400.font.js" type="text/javascript"></script>
     <script src="js/FF-cash.js" type="text/javascript"></script>
     <script src="js/easyTooltip.js" type="text/javascript"></script>
-	<script src="js/script.js" type="text/javascript"></script>
+    <script src="js/script.js" type="text/javascript"></script>
     <script src="js/bgSlider.js" type="text/javascript"></script>
+    <script>
+        (jquery2)(document).on("ready", evento);
+        function evento (ev)
+        {
+            (jquery2)('#proveedores').on("change",function(){
+                (jquery2).ajax({
+                    type: "post",
+                    url: "../controllers/process_ajax_suppliers.php",
+                    data: { code: (jquery2)(this).val() }
+                }).done(function(data) {
+                    (jquery2)('#rucs').val(data);
+                });
+            });
+            $('#fechaentrega').datetimepicker({
+                dateFormat: "d/m/yy",
+                timeFormat: "hh:mm:ss tt"
+            });
+        }
+    </script>
     
 	<!--[if lt IE 7]>
     <div style=' clear: both; text-align:center; position: relative;'>
@@ -116,15 +155,17 @@
                                         <h3>AGREGAR LISTA</h3>    
                                         <h6>Proveedor</h6>
                                         <p>
-                                            <select name="supplier" id="supplier">
-                                                <option value="1">Gloria</option>
-                                                <option value="2">Nestle</option>
-                                                <option value="3">ServePacket</option>
+                                            <select name="proveedores" id="proveedores">
+                                                <option value="0">Elija un Proveedor</option>
+<?php                                       foreach ($listaproveedores as $p)
+                                            { ?>
+                                                <option value="<?php echo $p['supplierID']; ?>"><?php echo $p['supplier']; ?></option>
+<?php                                       } ?>
                                             </select>
                                         </p>
                                         <h6>RUC</h6>
                                         <p>
-                                            <input type="text" value="324324324" disabled>
+                                            <input type="text" id="rucs" name="rucs" value="" disabled>
                                         </p>
                                     </div>
                                     <div class="orderslist-col2">
@@ -138,11 +179,11 @@
                                 <h3 class="border-bot">Fecha de Creacion</h3>
                                 <div class="img-indent-bot">
                                     <h6>Fecha de Creacion </h6>
-                                    <p class="p1">10/10/2013 10:08</p>
+                                    <p class="p1"><?php echo $date; ?></p>
                                 </div>
                                 <div class="img-indent-bot">
                                     <h6>Fecha de Entrega </h6>
-                                    <p class="p1"><input type="text" value=""></p>
+                                    <p class="p1"><input type="text" id="fechaentrega" value=""></p>
                                 </div>
                             </article>
                         </div>
