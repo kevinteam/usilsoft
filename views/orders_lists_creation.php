@@ -78,24 +78,109 @@
     <script src="js/bgSlider.js" type="text/javascript"></script>
     <script src="js/jquery.reveal.js" type="text/javascript"></script>
     <script>
+        var lista_json = {items:[]};
+        var orden_json = {items:[]};
+        var proveedor = "";
+        var ruc = "";
+        var cont = 0;
         (jquery2)(document).on("ready", evento);
         function evento (ev)
         {
-            var lista_arreglo = null;
             (jquery2)('#proveedores').on("change",function(){
+                proveedor=$("#proveedores option:selected").text();
                 (jquery2).ajax({
                     type: "post",
                     url: "../controllers/process_ajax_suppliers.php",
                     data: { code: (jquery2)(this).val() }
                 }).done(function(data) {
                     (jquery2)('#rucs').val(data);
+                    ruc=data;
                 });
             });
-            (jquery2)('.borrar').on("click",function(e){
+            (jquery2)("#tprincipal").on("click",".borrar",function(e){
                 e.preventDefault();
                 this.parentNode.parentNode.parentNode.removeChild( this.parentNode.parentNode );
             });
-            $('#fechaentrega').datetimepicker({
+            (jquery2)("#tpop").on("click",".borrar",function(e){
+                e.preventDefault();
+                this.parentNode.parentNode.parentNode.removeChild( this.parentNode.parentNode );
+            });
+            (jquery2)('#agregarorden').on("click",function(e){
+                e.preventDefault();
+                t1=$("#popmarca option:selected").text();
+                t2=$("#popproducto option:selected").text();
+                t3=$("#popcantidad").val()+" "+$("#popunidad option:selected").text();
+                t4=$("#popmoneda option:selected").text()+" "+$("#popcosto").val();
+                t5=$("#popfechaentrega").val();
+                var orden_array = [];
+                var ordenval_array = [];
+                orden_array.push(t1);
+                orden_array.push(t2);
+                orden_array.push(t3);
+                orden_array.push(t4);
+                orden_array.push(t5);
+                addRow("tpop",orden_array);
+                orden_json.items.push({id:cont,orden:orden_array,orderval:ordenval_array});
+                cont++;
+            });
+            (jquery2)('#agregarlista').on("click",function(e){
+                e.preventDefault();
+                /*t1=$("#popproducto option:selected").text();
+                t2=$("#popmarca option:selected").text();
+                t3=proveedor;
+                t4=$("#popcantidad").val()+" "+$("#popunidad option:selected").text();
+                t5=$("#popmoneda option:selected").text()+" "+$("#popcosto").val();
+                t6=ruc;
+                t7=$("#popfechaentrega").val();
+                t8="En Proceso";*/
+                /*orden_array.push(t1);
+                orden_array.push(t2);
+                orden_array.push(t3);
+                orden_array.push(t4);
+                orden_array.push(t5);
+                orden_array.push(t6);
+                orden_array.push(t7);
+                orden_array.push(t8);*/
+                //addRow("tprincipal",orden_array);
+                $("#tpop tbody").empty();
+                document.getElementById('login-contact-form').reset();
+                var cantidad = orden_json.items.length;
+                for(var i=0;i<cantidad;i++)
+                {
+                    var orden_array = [];
+                    orden_array.push(orden_json.items[i].orden[1]);
+                    orden_array.push(orden_json.items[i].orden[0]);
+                    orden_array.push(proveedor);
+                    orden_array.push(orden_json.items[i].orden[2]);
+                    orden_array.push(orden_json.items[i].orden[3]);
+                    orden_array.push(ruc);
+                    orden_array.push(orden_json.items[i].orden[4]);                    
+                    orden_array.push("En proceso");
+                    addRow("tprincipal",orden_array);
+                }
+                orden_json = {items:[]};
+            });
+            function addRow(tableID,arreglo)
+            {
+                var table = document.getElementById(tableID);
+                var tbody = table.getElementsByTagName('tbody')[0];
+                var rowCount = 0;//(jquery2)('#'+tableID).find('tbody > tr').length;
+                var row = tbody.insertRow(tbody.rows.length);
+                var cell1 = row.insertCell(0);
+                var element1 = document.createElement('a');
+                element1.setAttribute("href", "#");
+                element1.setAttribute("ref",cont);
+                element1.setAttribute("class", "borrar");
+                element1.innerHTML = "Borrar";
+                cell1.appendChild(element1);
+                var arregloCount = arreglo.length;
+                for(var i=0;i<arregloCount;i++)
+                {
+                    var cell = row.insertCell(i+1);
+                    cell.innerHTML = arreglo[i];
+                }
+            }
+            $('#popfechaentrega').datetimepicker({
                 dateFormat: "d/m/yy",
                 timeFormat: "hh:mm:ss tt"
             });
@@ -177,7 +262,7 @@
                                     </div>
                                     <div class="orderslist-col2">
                                         <div class="relative relative-center">
-                                            <a class="button-2" href="#">Agregar a la Lista</a>
+                                            <a class="button-2" data-reveal-id="myModal" href="#">Agregar a la Lista</a>
                                         </div>
                                     </div>
                                 </div>
@@ -188,16 +273,12 @@
                                     <h6>Fecha de Creacion </h6>
                                     <p class="p1"><?php echo $date; ?></p>
                                 </div>
-                                <div class="img-indent-bot">
-                                    <h6>Fecha de Entrega </h6>
-                                    <p class="p1"><input type="text" id="fechaentrega" value=""></p>
-                                </div>
                             </article>
                         </div>
                     </div>
                     <div class="wrapper p3">
-                    	<table border="1" style="width:100%">
-                            <thead>
+                    	<table id="tprincipal" border="1" style="width:100%">
+                            <thead class="align-center">
                                 <tr>
                                     <th>#</th>
                                     <th>PRODUCTO</th>
@@ -206,30 +287,11 @@
                                     <th>CANTIDAD</th>
                                     <th>COSTO</th>
                                     <th>RUC</th>
-                                    <th>F. Entrega</th>
+                                    <th>F. ENTREGA</th>
+                                    <th>ESTADO</th>
                                 </tr>
                             </thead>
                             <tbody class="align-center">
-                                <tr>
-                                    <td><a href="#" class="borrar" ref="0">Borrar</a></td>
-                                    <td>Yogurt Gloria Fresa</td>
-                                    <td>Gloria</td>
-                                    <td>Gloria</td>
-                                    <td>32 Botella</td>
-                                    <td>S/. 320.00</td>
-                                    <td>123123123123</td>
-                                    <td>02/11/2013 02:00 PM</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="borrar" ref="1">Borrar</a></td>
-                                    <td>Gaseosa Inca Kola de 1 Litro</td>
-                                    <td>Inka Cola</td>
-                                    <td>Coca Cola</td>
-                                    <td>50 Botella</td>
-                                    <td>S/. 250.00</td>
-                                    <td>123123123145</td>
-                                    <td>02/11/2013 02:00 PM</td>
-                                </tr>
                             </tbody>
                             <tfoot>                         
                             </tfoot>
@@ -237,7 +299,7 @@
                     </div>
                     <div class="wrapper p3 align-right">
                         <div class="relative margen-derecho">
-                            <a class="button-2" data-reveal-id="myModal" href="#">Generar Lista de Ordenes</a>
+                            <a class="button-2" href="#">Generar Lista de Ordenes</a>
                         </div>
                     </div>
                 </section>
@@ -283,22 +345,27 @@
                         <input name="popcosto" id="popcosto" type="text" />
                         <select name="popmoneda" id="popmoneda">
                             <option value="0">Elija una Moneda</option>
-                            <option value="1">Nuevos Soles Peruanos</option>
-                            <option value="1">Dollar</option>
-                            <option value="2">Euro</option>
+                            <option value="1">S/.</option>
+                            <option value="1">$</option>
+                            <option value="2">€</option>
                         </select>
+                    </label>
+                    <label class="login-label">
+                        <span class="login-text-form">Fecha de Entrega:</span>
+                        <input name="popfechaentrega" id="popfechaentrega" type="text" />
                     </label>
                     <div class="wrapper">
                         <div class="extra-wrap">
                             <div class="clear"></div>
                             <div class="login-buttons">
                             <a class="button-2" href="#" onClick="document.getElementById('login-contact-form').reset()">Limpiar</a>
-                            <a class="button-2" href="#" onClick="document.getElementById('login-contact-form').submit()">Logearse</a>
-                        </div> 
+                            <a class="button-2" id="agregarorden" href="#">Agregar</a>
+                        </div>
                     </div>
-                    <table border="1" style="width:100%">
-                        <thead>
+                    <table id="tpop" border="1" style="width:100%">
+                        <thead class="align-center">
                             <tr>
+                                <th>#</th>
                                 <th>MARCA</th>
                                 <th>PRODUCTO</th>
                                 <th>CANTIDAD</th>
@@ -307,22 +374,16 @@
                             </tr>
                         </thead>
                         <tbody class="align-center">
-                            <tr>
-                                <td>Inka Cola</td>
-                                <td>Gaseosa Inca Kola de 1 Litro</td>
-                                <td>50 Botella</td>
-                                <td>S/. 250.00</td>
-                                <td>02/11/2013 02:00 PM</td>
-                            </tr>
                         </tbody>
                         <tfoot>                         
                         </tfoot>
                     </table>
+                            <a class="button-2 close-reveal-modal" id="agregarlista" href="#">Agregar a Lista</a>
                 </div>                            
             </fieldset>                     
         </form>
         </div>
-        <a class="close-reveal-modal">&#215;</a>
+        <a class="close-reveal-modal x-close-reveal-modal">&#215;</a>
     </div>
 	<!--==============================footer=================================-->
     <footer>

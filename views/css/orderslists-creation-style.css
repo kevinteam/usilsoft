@@ -1,4 +1,4 @@
-.align-center tr td{
+.align-center tr{
 	text-align: center;
 }
 .margen-derecho{
@@ -19,7 +19,7 @@
 	width:220px;
 	display:inline;
 }
-#popcantidad,#popcosto{
+#popcantidad,#popcosto,#popfechaentrega{
 	width:100px !important;
 }
 .login-label select{
