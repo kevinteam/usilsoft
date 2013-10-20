@@ -101,7 +101,7 @@
                                             <div class="clear"></div>
                                             <div class="login-buttons">
                                                 <a class="button-2" href="#" onClick="document.getElementById('login-contact-form').reset()">Limpiar</a>
-                                                <a class="button-2" href="#" onClick="document.getElementById('login-contact-form').submit()">Logearse</a>
+                                                <a class="button-2" href="#" onClick="document.getElementById('login-contact-form').submit()">Agregar</a>
                                             </div> 
                                         </div>
                                     </div>                            

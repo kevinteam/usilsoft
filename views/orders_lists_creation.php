@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/orderslists-creation-style.css" type="text/css" media="screen">    
     <link rel="stylesheet" href="css/jquery-ui-timepicker-addon.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="css/reveal.css" type="text/css" media="screen">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" media="screen">    
     <link href='http://fonts.googleapis.com/css?family=Adamina' rel='stylesheet' type='text/css'>   
     <script src="http://code.jquery.com/jquery-2.0.3.min.js" type="text/javascript"></script>
@@ -75,10 +76,12 @@
     <script src="js/easyTooltip.js" type="text/javascript"></script>
     <script src="js/script.js" type="text/javascript"></script>
     <script src="js/bgSlider.js" type="text/javascript"></script>
+    <script src="js/jquery.reveal.js" type="text/javascript"></script>
     <script>
         (jquery2)(document).on("ready", evento);
         function evento (ev)
         {
+            var lista_arreglo = null;
             (jquery2)('#proveedores').on("change",function(){
                 (jquery2).ajax({
                     type: "post",
@@ -87,6 +90,10 @@
                 }).done(function(data) {
                     (jquery2)('#rucs').val(data);
                 });
+            });
+            (jquery2)('.borrar').on("click",function(e){
+                e.preventDefault();
+                this.parentNode.parentNode.parentNode.removeChild( this.parentNode.parentNode );
             });
             $('#fechaentrega').datetimepicker({
                 dateFormat: "d/m/yy",
@@ -197,34 +204,31 @@
                                     <th>MARCA</th>
                                     <th>PROVEEDOR</th>
                                     <th>CANTIDAD</th>
-                                    <th>UNIDAD</th>
-                                    <th>PRECIO</th>
-                                    <th>MONEDA</th>
+                                    <th>COSTO</th>
                                     <th>RUC</th>
+                                    <th>F. Entrega</th>
                                 </tr>
                             </thead>
                             <tbody class="align-center">
                                 <tr>
-                                    <td><a href="#">Borrar</a></td>
+                                    <td><a href="#" class="borrar" ref="0">Borrar</a></td>
                                     <td>Yogurt Gloria Fresa</td>
                                     <td>Gloria</td>
                                     <td>Gloria</td>
-                                    <td>Botella</td>
-                                    <td>32</td>
-                                    <td>320.00</td>
-                                    <td>S/.</td>
+                                    <td>32 Botella</td>
+                                    <td>S/. 320.00</td>
                                     <td>123123123123</td>
+                                    <td>02/11/2013 02:00 PM</td>
                                 </tr>
                                 <tr>
-                                    <td><a href="#">Borrar</a></td>
+                                    <td><a href="#" class="borrar" ref="1">Borrar</a></td>
                                     <td>Gaseosa Inca Kola de 1 Litro</td>
+                                    <td>Inka Cola</td>
                                     <td>Coca Cola</td>
-                                    <td>Coca Cola</td>
-                                    <td>Botella</td>
-                                    <td>50</td>
-                                    <td>250.00</td>
-                                    <td>S/.</td>
+                                    <td>50 Botella</td>
+                                    <td>S/. 250.00</td>
                                     <td>123123123145</td>
+                                    <td>02/11/2013 02:00 PM</td>
                                 </tr>
                             </tbody>
                             <tfoot>                         
@@ -233,13 +237,92 @@
                     </div>
                     <div class="wrapper p3 align-right">
                         <div class="relative margen-derecho">
-                            <a class="button-2" href="#">Generar Lista de Ordenes</a>
+                            <a class="button-2" data-reveal-id="myModal" href="#">Generar Lista de Ordenes</a>
                         </div>
                     </div>
                 </section>
                 <div class="block"></div>
             </div>
         </div>
+    </div>
+    <div id="myModal" class="reveal-modal">
+        <p>Orden de Compra</p>
+        <div class="p3">
+            <form id="login-contact-form" action="../controllers/process_login.php" method="post" enctype="multipart/form-data">                    
+                <fieldset>
+                    <label class="login-label">
+                        <span class="login-text-form">Marca:</span>
+                        <select name="popmarca" id="popmarca">
+                            <option value="0">Elija una Marca</option>
+                            <option value="1">Gloria</option>
+                            <option value="1">Nestle</option>
+                            <option value="2">Inca Kola</option>
+                        </select>
+                    </label>
+                    <label class="login-label">
+                        <span class="login-text-form">Producto:</span>
+                        <select name="popproducto" id="popproducto">
+                            <option value="0">Elija un Producto</option>
+                            <option value="1">Leche descremada</option>
+                            <option value="1">Yogurt</option>
+                            <option value="2">Mantequilla</option>
+                        </select>
+                    </label>
+                    <label class="login-label">
+                        <span class="login-text-form">Cantidad:</span>
+                        <input name="popcantidad" id="popcantidad" type="text" />
+                        <select name="popunidad" id="popunidad">
+                            <option value="0">Elija una Unidad</option>
+                            <option value="1">Botella</option>
+                            <option value="1">Caja</option>
+                            <option value="2">Bolsa</option>
+                        </select>
+                    </label>
+                    <label class="login-label">
+                        <span class="login-text-form">Costo:</span>
+                        <input name="popcosto" id="popcosto" type="text" />
+                        <select name="popmoneda" id="popmoneda">
+                            <option value="0">Elija una Moneda</option>
+                            <option value="1">Nuevos Soles Peruanos</option>
+                            <option value="1">Dollar</option>
+                            <option value="2">Euro</option>
+                        </select>
+                    </label>
+                    <div class="wrapper">
+                        <div class="extra-wrap">
+                            <div class="clear"></div>
+                            <div class="login-buttons">
+                            <a class="button-2" href="#" onClick="document.getElementById('login-contact-form').reset()">Limpiar</a>
+                            <a class="button-2" href="#" onClick="document.getElementById('login-contact-form').submit()">Logearse</a>
+                        </div> 
+                    </div>
+                    <table border="1" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>MARCA</th>
+                                <th>PRODUCTO</th>
+                                <th>CANTIDAD</th>
+                                <th>COSTO</th>
+                                <th>FECHA DE ENTREGA</th>
+                            </tr>
+                        </thead>
+                        <tbody class="align-center">
+                            <tr>
+                                <td>Inka Cola</td>
+                                <td>Gaseosa Inca Kola de 1 Litro</td>
+                                <td>50 Botella</td>
+                                <td>S/. 250.00</td>
+                                <td>02/11/2013 02:00 PM</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>                         
+                        </tfoot>
+                    </table>
+                </div>                            
+            </fieldset>                     
+        </form>
+        </div>
+        <a class="close-reveal-modal">&#215;</a>
     </div>
 	<!--==============================footer=================================-->
     <footer>

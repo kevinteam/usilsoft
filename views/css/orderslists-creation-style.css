@@ -19,3 +19,9 @@
 	width:220px;
 	display:inline;
 }
+#popcantidad,#popcosto{
+	width:100px !important;
+}
+.login-label select{
+	margin:10px 10px !important;
+}
