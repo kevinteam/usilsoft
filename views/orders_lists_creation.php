@@ -94,16 +94,48 @@
                     data: { code: (jquery2)(this).val() }
                 }).done(function(data) {
                     (jquery2)('#rucs').val(data);
+                    if(proveedor == "Elija un Proveedor")
+                    {
+                        document.getElementById('crearorden').setAttribute("data-reveal-id", " ");
+                        (jquery2)("#prinerror").html("Debe Seleccionar un Proveedor");
+                    }
+                    else
+                    {    
+                        document.getElementById('crearorden').setAttribute("data-reveal-id", "myModal");
+                        (jquery2)("#prinerror").html("");
+                    }
                     ruc=data;
                 });
             });
             (jquery2)("#tprincipal").on("click",".borrar",function(e){
                 e.preventDefault();
                 this.parentNode.parentNode.parentNode.removeChild( this.parentNode.parentNode );
+                var ref = parseInt($(this).attr("ref"));
+                for(var i = 0; i<lista_json.items.length;i++)
+                {
+                    if(lista_json.items[i].id == ref)
+                        lista_json.items.splice(i,1);                
+                }
             });
             (jquery2)("#tpop").on("click",".borrar",function(e){
                 e.preventDefault();
                 this.parentNode.parentNode.parentNode.removeChild( this.parentNode.parentNode );
+                var ref = parseInt($(this).attr("ref"));
+                for(var i = 0; i<orden_json.items.length;i++)
+                {
+                    if(orden_json.items[i].id == ref)
+                        orden_json.items.splice(i,1);                
+                }
+            });
+            (jquery2)('#crearorden').on("click",function(e){
+                if($("#proveedores option:selected").text() == "Elija un Proveedor")
+                {
+                    (jquery2)("#prinerror").html("Debe Seleccionar un Proveedor");
+                }
+                else
+                {
+                    (jquery2)("#prinerror").html("");
+                }
             });
             (jquery2)('#agregarorden').on("click",function(e){
                 e.preventDefault();
@@ -112,16 +144,45 @@
                 t3=$("#popcantidad").val()+" "+$("#popunidad option:selected").text();
                 t4=$("#popmoneda option:selected").text()+" "+$("#popcosto").val();
                 t5=$("#popfechaentrega").val();
-                var orden_array = [];
-                var ordenval_array = [];
-                orden_array.push(t1);
-                orden_array.push(t2);
-                orden_array.push(t3);
-                orden_array.push(t4);
-                orden_array.push(t5);
-                addRow("tpop",orden_array);
-                orden_json.items.push({id:cont,orden:orden_array,orderval:ordenval_array});
-                cont++;
+                
+                v1=$("#proveedores option:selected").val();//valor de proveedor
+                v2=$("#popproducto option:selected").val();//valor de producto
+                v3=$("#popcantidad").val();//valor de cantidad
+                v4=$("#popunidad option:selected").val();//valor de unidad
+                v5=$("#popcosto").val();//valor de costo
+                v6=$("#popmoneda option:selected").val();//valor de moneda
+                v7=$("#popfechaentrega").val();//valor de fecha de entrega
+                if($("#proveedores option:selected").text() == "Elija un Proveedor")
+                {
+                    (jquery2)("#poperror").html("Debe Seleccionar un Proveedor");
+                }
+                else if($("#popcantidad").val().trim() == "" || $("#popcosto").val().trim() == "" || t2 == "Elija un producto" || t1 == "Elija una marca" || $("#popunidad option:selected").text() == "Elija una Unidad" || t5.trim() == "")
+                {   
+                    (jquery2)("#poperror").html("No puede dejar datos en blanco");
+                }
+                else
+                {
+                    /*DENTRO DE ORDENES*/
+                    var orden_array = [];
+                    var val_array = [];
+                    orden_array.push(t1);//marca
+                    orden_array.push(t2);//producto
+                    orden_array.push(t3);//cantidad+unidad
+                    orden_array.push(t4);//moneda+costo
+                    orden_array.push(t5);//fecha de entrega
+                    addRow("tpop",orden_array,cont);
+
+                    val_array.push(v1);//proveedor
+                    val_array.push(v2);//producto
+                    val_array.push(v3);//cantidad
+                    val_array.push(v4);//unidad
+                    val_array.push(v5);//costo
+                    val_array.push(v6);//moneda
+                    val_array.push(v7);//fecha de entrega
+                    orden_json.items.push({id:cont,orden:orden_array,orderval:val_array});
+                    cont++;
+                    (jquery2)("#poperror").html("");
+                }
             });
             (jquery2)('#agregarlista').on("click",function(e){
                 e.preventDefault();
@@ -156,11 +217,21 @@
                     orden_array.push(ruc);
                     orden_array.push(orden_json.items[i].orden[4]);                    
                     orden_array.push("En proceso");
-                    addRow("tprincipal",orden_array);
+                    addRow("tprincipal",orden_array,orden_json.items[i].id);
+
+                    var val_array = [];
+                    val_array.push(orden_json.items[i].orderval[0]);
+                    val_array.push(orden_json.items[i].orderval[1]);
+                    val_array.push(orden_json.items[i].orderval[2]);
+                    val_array.push(orden_json.items[i].orderval[3]);
+                    val_array.push(orden_json.items[i].orderval[4]);
+                    val_array.push(orden_json.items[i].orderval[5]);
+                    val_array.push(orden_json.items[i].orderval[6]);
+                    lista_json.items.push({id:orden_json.items[i].id,orden:orden_array,orderval:val_array});
                 }
                 orden_json = {items:[]};
             });
-            function addRow(tableID,arreglo)
+            function addRow(tableID,arreglo,ref)
             {
                 var table = document.getElementById(tableID);
                 var tbody = table.getElementsByTagName('tbody')[0];
@@ -169,7 +240,7 @@
                 var cell1 = row.insertCell(0);
                 var element1 = document.createElement('a');
                 element1.setAttribute("href", "#");
-                element1.setAttribute("ref",cont);
+                element1.setAttribute("ref",ref);
                 element1.setAttribute("class", "borrar");
                 element1.innerHTML = "Borrar";
                 cell1.appendChild(element1);
@@ -240,8 +311,9 @@
             <div class="main">
                 <section id="content">
                     <div class="indent">
-                    	<div class="wrapper">
-                        	<article class="col-1">
+                        <div class="wrapper">
+                            <article class="col-1">
+                                <p id="prinerror" style="color:red;"></p>
                                 <div class="indent-left">
                                     <div class="orderslist-col1">
                                         <h3>AGREGAR LISTA</h3>    
@@ -262,7 +334,7 @@
                                     </div>
                                     <div class="orderslist-col2">
                                         <div class="relative relative-center">
-                                            <a class="button-2" data-reveal-id="myModal" href="#">Agregar a la Lista</a>
+                                            <a class="button-2" id="crearorden" data-reveal-id="myModal" href="#">Agregar a la Lista</a>
                                         </div>
                                     </div>
                                 </div>
@@ -277,7 +349,7 @@
                         </div>
                     </div>
                     <div class="wrapper p3">
-                    	<table id="tprincipal" border="1" style="width:100%">
+                        <table id="tprincipal" border="1" style="width:100%">
                             <thead class="align-center">
                                 <tr>
                                     <th>#</th>
@@ -312,6 +384,7 @@
         <div class="p3">
             <form id="login-contact-form" action="../controllers/process_login.php" method="post" enctype="multipart/form-data">                    
                 <fieldset>
+                    <p id="poperror" style="color:red;"></p>
                     <label class="login-label">
                         <span class="login-text-form">Marca:</span>
                         <select name="popmarca" id="popmarca">
