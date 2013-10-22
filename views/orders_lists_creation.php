@@ -28,13 +28,23 @@
             /* LISTA ORDENES */
             $query = "SELECT * FROM OrdersLists, Orders, Suppliers, States WHERE OrdersLists.orderListID = Orders.orderListID AND Orders.supplierID = Suppliers.supplierID AND Orders.stateID = States.stateID";
             $resultado = mysql_query($query) or die(mysql_error());
-            mysql_close();
             $lista = array();
             while($row = mysql_fetch_array($resultado))
             {
                 $lista[] = $row;
             }
             /* FIN LISTA ORDENES */
+
+            /* LISTA MONEDAS */
+            $query = "SELECT currencyID,symbol FROM Currencies";
+            $resultado = mysql_query($query) or die(mysql_error());
+            $listamonedas = array();
+            mysql_close();
+            while($row = mysql_fetch_array($resultado))
+            {
+                $listamonedas[] = $row;
+            }
+            /* FIN LISTA MONEDAS */
         }
         else
         {
@@ -93,18 +103,74 @@
                     url: "../controllers/process_ajax_suppliers.php",
                     data: { code: (jquery2)(this).val() }
                 }).done(function(data) {
-                    (jquery2)('#rucs').val(data);
+                    (jquery2)('#rucs').val(JSON.parse(data).ruc);
+                    (jquery2)('#popmarca')
+                        .find('option')
+                        .remove()
+                        .end()
+                    ;
+                    (jquery2)('#popmarca').append((jquery2)('<option>', {
+                        value: 0,
+                        text: "Elija una Marca"
+                    }));
+                    var arreglo_marcas = JSON.parse(data).marcas;
+                    for(var i=0; i<arreglo_marcas.length; i++)
+                    {
+                        (jquery2)('#popmarca').append((jquery2)('<option>', {
+                            value: arreglo_marcas[i][0],
+                            text: arreglo_marcas[i][1]
+                        }));
+                    }
                     if(proveedor == "Elija un Proveedor")
                     {
                         document.getElementById('crearorden').setAttribute("data-reveal-id", " ");
-                        (jquery2)("#prinerror").html("Debe Seleccionar un Proveedor");
+                        //(jquery2)("#prinerror").html("Debe Seleccionar un Proveedor");
                     }
                     else
                     {    
                         document.getElementById('crearorden').setAttribute("data-reveal-id", "myModal");
                         (jquery2)("#prinerror").html("");
                     }
-                    ruc=data;
+                    ruc=JSON.parse(data).ruc;
+                });
+            });
+            (jquery2)('#popmarca').on("change",function(){
+                var marca=$("#popmarca option:selected").val();
+                var prov=$("#proveedores option:selected").val();
+                (jquery2).ajax({
+                    type: "post",
+                    url: "../controllers/process_ajax_branchs_orders.php",
+                    data: { supplier: prov, branch: marca}
+                }).done(function(data) {
+                    (jquery2)('#popproducto')
+                        .find('option')
+                        .remove()
+                        .end()
+                    ;
+                    (jquery2)('#popproducto').append((jquery2)('<option>', {
+                        value: 0,
+                        text: "Elija un producto"
+                    }));
+                    var arreglo_productos = JSON.parse(data).productos;
+                    for(var i=0; i<arreglo_productos.length; i++)
+                    {
+                        (jquery2)('#popproducto').append((jquery2)('<option>', {
+                            value: arreglo_productos[i][0],
+                            text: arreglo_productos[i][1]
+                        }));
+                    }
+                });
+            });
+            (jquery2)('#popproducto').on("change",function(){
+                var marca=$("#popmarca option:selected").val();
+                var prov=$("#proveedores option:selected").val();
+                var producto=$("#popproducto option:selected").val();
+                (jquery2).ajax({
+                    type: "post",
+                    url: "../controllers/process_ajax_products_orders.php",
+                    data: { supplier: prov, branch: marca, product: producto}
+                }).done(function(data) {
+                    (jquery2)('#popunidad').val(data);
                 });
             });
             (jquery2)("#tprincipal").on("click",".borrar",function(e){
@@ -141,14 +207,14 @@
                 e.preventDefault();
                 t1=$("#popmarca option:selected").text();
                 t2=$("#popproducto option:selected").text();
-                t3=$("#popcantidad").val()+" "+$("#popunidad option:selected").text();
+                t3=$("#popcantidad").val()+" "+$("#popunidad").val();
                 t4=$("#popmoneda option:selected").text()+" "+$("#popcosto").val();
                 t5=$("#popfechaentrega").val();
                 
                 v1=$("#proveedores option:selected").val();//valor de proveedor
                 v2=$("#popproducto option:selected").val();//valor de producto
                 v3=$("#popcantidad").val();//valor de cantidad
-                v4=$("#popunidad option:selected").val();//valor de unidad
+                v4=$("#popunidad").val();//valor de unidad
                 v5=$("#popcosto").val();//valor de costo
                 v6=$("#popmoneda option:selected").val();//valor de moneda
                 v7=$("#popfechaentrega").val();//valor de fecha de entrega
@@ -156,7 +222,7 @@
                 {
                     (jquery2)("#poperror").html("Debe Seleccionar un Proveedor");
                 }
-                else if($("#popcantidad").val().trim() == "" || $("#popcosto").val().trim() == "" || t2 == "Elija un producto" || t1 == "Elija una marca" || $("#popunidad option:selected").text() == "Elija una Unidad" || t5.trim() == "")
+                else if($("#popcantidad").val().trim() == "" || $("#popcosto").val().trim() == "" || t2 == "Elija un producto" || t1 == "Elija una marca" || t5.trim() == "")
                 {   
                     (jquery2)("#poperror").html("No puede dejar datos en blanco");
                 }
@@ -334,7 +400,7 @@
                                     </div>
                                     <div class="orderslist-col2">
                                         <div class="relative relative-center">
-                                            <a class="button-2" id="crearorden" data-reveal-id="myModal" href="#">Agregar a la Lista</a>
+                                            <a class="button-2" id="crearorden" data-reveal-id="" href="#">Agregar a la Lista</a>
                                         </div>
                                     </div>
                                 </div>
@@ -389,38 +455,27 @@
                         <span class="login-text-form">Marca:</span>
                         <select name="popmarca" id="popmarca">
                             <option value="0">Elija una Marca</option>
-                            <option value="1">Gloria</option>
-                            <option value="1">Nestle</option>
-                            <option value="2">Inca Kola</option>
                         </select>
                     </label>
                     <label class="login-label">
                         <span class="login-text-form">Producto:</span>
                         <select name="popproducto" id="popproducto">
                             <option value="0">Elija un Producto</option>
-                            <option value="1">Leche descremada</option>
-                            <option value="1">Yogurt</option>
-                            <option value="2">Mantequilla</option>
                         </select>
                     </label>
                     <label class="login-label">
                         <span class="login-text-form">Cantidad:</span>
                         <input name="popcantidad" id="popcantidad" type="text" />
-                        <select name="popunidad" id="popunidad">
-                            <option value="0">Elija una Unidad</option>
-                            <option value="1">Botella</option>
-                            <option value="1">Caja</option>
-                            <option value="2">Bolsa</option>
-                        </select>
+                        <input type="text" name="popunidad" id="popunidad" disabled>
                     </label>
                     <label class="login-label">
                         <span class="login-text-form">Costo:</span>
                         <input name="popcosto" id="popcosto" type="text" />
                         <select name="popmoneda" id="popmoneda">
-                            <option value="0">Elija una Moneda</option>
-                            <option value="1">S/.</option>
-                            <option value="1">$</option>
-                            <option value="2">€</option>
+<?php                       foreach ($listamonedas as $c)
+                            { ?>
+                                <option value="<?php echo $c['currencyID']; ?>"><?php echo $c['symbol']; ?></option>
+<?php                       } ?>
                         </select>
                     </label>
                     <label class="login-label">

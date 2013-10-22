@@ -20,10 +20,26 @@
             {
                 $ruc = $row['ruc'];
             }
-            mysql_close();
             /* FIN LISTA PROVEEDORES */
-            echo $ruc;
-
+            /* LISTA MARCAS */
+            $query = "SELECT Products.branchID AS branchid,Branchs.branch AS branch FROM ProductsCosts,Products,Branchs WHERE Branchs.branchID = Products.productID AND Products.productID = ProductsCosts.productID AND ProductsCosts.supplierID='$proveedor'";
+            $resultado = mysql_query($query) or die(mysql_error());
+            $branchs = array();
+            while($row = mysql_fetch_array($resultado))
+            {
+                $branchs[] = $row;
+            }
+            /* FIN LISTA MARCAS */
+            mysql_close();  
+        
+            $data = array(
+                'ruc' => $ruc,
+                'marcas' => $branchs  
+            );  
+            //$branch = [[1,"marca1"],[2,"marca2"]];
+            //$branchjson = json_encode($branch);
+            //echo "{ruc:$ruc,branchid:$branchjson}";
+            echo json_encode($data);
         }
         else
         {

@@ -19,9 +19,13 @@
 	width:220px;
 	display:inline;
 }
-#popcantidad,#popcosto,#popfechaentrega{
+#popcantidad,#popcosto,#popfechaentrega,#popunidad{
 	width:100px !important;
 }
 .login-label select{
 	margin:10px 10px !important;
+}
+.login-text-form{
+	margin:5px 10px 0px 10px !important;
+	width: 120px;
 }
