@@ -1,16 +1,7 @@
 <?php
     session_start();
     $logeado = (isset($_SESSION['usuario']) && isset($_SESSION['nombre_usuario'])) ? true : false;
-    /* CONEXION BASE DE DATOS */
-    include_once("../modulo/conexion.php");
-    mysql_connect($server,$mysqllogin,$mysqlpass) or die(mysql_error());
-    mysql_select_db($db) or die(mysql_error());
-    /* FIN CONEXION BASE DE DATOS */
     
-    //$_SESSION['usuario'] = 1;
-    //$_SESSION['nombre_usuario'] = "analisamelchoto";
-    /*CAROUSEL SI USUARIO INICIO SESION */
-    $logeado = (isset($_SESSION['usuario']) && isset($_SESSION['nombre_usuario']) ) ? true : false;
     if($logeado==true)
     {
         $idusuario = $_SESSION['usuario'];
@@ -20,10 +11,9 @@
         header("Location: login.php");
         exit();
     }
-    /*FIN CAROUSEL SI USUARIO INICIO SESION*/
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <title></title>
     <meta charset="utf-8">
@@ -102,30 +92,30 @@
                                 <img src="images/slider-img1.jpg" alt="" />
                                 <div class="banner">
                                     <strong class="title">
-                                        <strong>Hot</strong><em>Recipe</em>
+                                        <strong>Lista de </strong><em>Ordenes</em>
                                     </strong>
-                                    <p class="p3">Lorem ipsum dolor sit amet consecteur adipising elit, sed do eiusmod tem por incididunt ut labore et dolore magna.</p>
-                                    <a class="button-1" href="#">Leer Mas</a>
+                                    <p class="p3">Podra generar la lista de ordenes de forma dinamica.</p>
+                                    <a class="button-1" href="orders_lists.php">Ir a Ordenes</a>
                                 </div>
                             </li>
                             <li>
                                 <img src="images/slider-img2.jpg" alt="" />
                                 <div class="banner">
                                     <strong class="title">
-                                        <strong>Hot</strong><em>Recipe</em>
+                                        <strong>Creacion de</strong><em>Kardex</em>
                                     </strong>
-                                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-                                    <a class="button-1" href="#">Leer Mas</a>
+                                    <p>Podra crear un kardex automaticamente.</p>
+                                    <a class="button-1" href="#">Ir a Kardex</a>
                                 </div>
                             </li>
                             <li>
                                 <img src="images/slider-img3.jpg" alt="" />
                                 <div class="banner">
                                     <strong class="title">
-                                        <strong>Hot</strong><em>Recipe</em>
+                                        <strong>Inserccion de</strong><em>Datos</em>
                                     </strong>
-                                    <p>Neque porro quisquam estui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam.</p>
-                                    <a class="button-1" href="#">Leer Mas</a>
+                                    <p>Ahora podra facilmente agregar proveedores,productos,marcas,etc.</p>
+                                    <a class="button-1" href="#">Ir a Datos</a>
                                 </div>
                             </li>
                         </ul>
@@ -155,7 +145,7 @@
                                 </article>
                                 <article class="col-2">
                                     <h3>Datos</h3>
-                                    <p>El siguiente link le permite agregar y/o modificar precios, productos, proveedores, marcas y todo lo relacionado con logistica. <a class="link" href="#">Insertar Datos</a>. <a class="link" href="contacts.php">Contactenos</a> (Porfavor contactenos en caso detecte algun error).</p>
+                                    <p>El siguiente link le permite agregar y/o modificar precios, productos, proveedores, marcas y todo lo relacionado con logistica. <a class="link" href="#">Insertar Datos</a>. <a class="link" href="mailto:usilsoft@outlook.com">Contactenos</a> (Porfavor contactenos en caso detecte algun error).</p>
                                     <div class="relative">
                                         <a class="button-2" href="#">Ir a Datos</a>
                                     </div>

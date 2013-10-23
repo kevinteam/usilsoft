@@ -59,7 +59,7 @@
     }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <title></title>
     <meta charset="utf-8">
@@ -194,6 +194,7 @@
                 }
             });
             (jquery2)('#crearorden').on("click",function(e){
+                e.preventDefault();
                 if($("#proveedores option:selected").text() == "Elija un Proveedor")
                 {
                     (jquery2)("#prinerror").html("Debe Seleccionar un Proveedor");
@@ -201,6 +202,14 @@
                 else
                 {
                     (jquery2)("#prinerror").html("");
+                }
+            });
+            (jquery2)('#enviar_lista').on("click",function(e){
+                e.preventDefault();
+                if(lista_json.items.length > 0)
+                {
+                    (jquery2)( "#json_lista_orden" ).val(JSON.stringify(lista_json));
+                    (jquery2)( "#form_enviar_lista" ).submit();
                 }
             });
             (jquery2)('#agregarorden').on("click",function(e){
@@ -214,10 +223,9 @@
                 v1=$("#proveedores option:selected").val();//valor de proveedor
                 v2=$("#popproducto option:selected").val();//valor de producto
                 v3=$("#popcantidad").val();//valor de cantidad
-                v4=$("#popunidad").val();//valor de unidad
-                v5=$("#popcosto").val();//valor de costo
-                v6=$("#popmoneda option:selected").val();//valor de moneda
-                v7=$("#popfechaentrega").val();//valor de fecha de entrega
+                v4=$("#popcosto").val();//valor de costo
+                v5=$("#popmoneda option:selected").val();//valor de moneda
+                v6=$("#popfechaentrega").val();//valor de fecha de entrega
                 if($("#proveedores option:selected").text() == "Elija un Proveedor")
                 {
                     (jquery2)("#poperror").html("Debe Seleccionar un Proveedor");
@@ -239,12 +247,11 @@
                     addRow("tpop",orden_array,cont);
 
                     val_array.push(v1);//proveedor
-                    val_array.push(v2);//producto
+                    val_array.push(v2);//producto(producto ya tiene marca y cantidad)
                     val_array.push(v3);//cantidad
-                    val_array.push(v4);//unidad
-                    val_array.push(v5);//costo
-                    val_array.push(v6);//moneda
-                    val_array.push(v7);//fecha de entrega
+                    val_array.push(v4);//costo
+                    val_array.push(v5);//moneda
+                    val_array.push(v6);//fecha de entrega
                     orden_json.items.push({id:cont,orden:orden_array,orderval:val_array});
                     cont++;
                     (jquery2)("#poperror").html("");
@@ -252,23 +259,6 @@
             });
             (jquery2)('#agregarlista').on("click",function(e){
                 e.preventDefault();
-                /*t1=$("#popproducto option:selected").text();
-                t2=$("#popmarca option:selected").text();
-                t3=proveedor;
-                t4=$("#popcantidad").val()+" "+$("#popunidad option:selected").text();
-                t5=$("#popmoneda option:selected").text()+" "+$("#popcosto").val();
-                t6=ruc;
-                t7=$("#popfechaentrega").val();
-                t8="En Proceso";*/
-                /*orden_array.push(t1);
-                orden_array.push(t2);
-                orden_array.push(t3);
-                orden_array.push(t4);
-                orden_array.push(t5);
-                orden_array.push(t6);
-                orden_array.push(t7);
-                orden_array.push(t8);*/
-                //addRow("tprincipal",orden_array);
                 $("#tpop tbody").empty();
                 document.getElementById('login-contact-form').reset();
                 var cantidad = orden_json.items.length;
@@ -292,7 +282,6 @@
                     val_array.push(orden_json.items[i].orderval[3]);
                     val_array.push(orden_json.items[i].orderval[4]);
                     val_array.push(orden_json.items[i].orderval[5]);
-                    val_array.push(orden_json.items[i].orderval[6]);
                     lista_json.items.push({id:orden_json.items[i].id,orden:orden_array,orderval:val_array});
                 }
                 orden_json = {items:[]};
@@ -435,9 +424,12 @@
                             </tfoot>
                         </table>
                     </div>
+                    <form action="../controllers/process_lists_orders.php" id="form_enviar_lista" method="post">
+                        <input type="hidden" name="json_lista_orden" id="json_lista_orden" value="">
+                    </form>
                     <div class="wrapper p3 align-right">
                         <div class="relative margen-derecho">
-                            <a class="button-2" href="#">Generar Lista de Ordenes</a>
+                            <a class="button-2" href="#" id="enviar_lista">Generar Lista de Ordenes</a>
                         </div>
                     </div>
                 </section>

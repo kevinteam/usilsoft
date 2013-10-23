@@ -43,13 +43,13 @@
         }
         else
         {
-            header("Location: index.php");
+            header("Location: ../views/index.php");
             exit();
         }
     }
     else
     {
-        header("Location: index.php?fallo=isset");
+        header("Location: ../views/index.php?fallo=isset");
         exit();
     }
 ?>
