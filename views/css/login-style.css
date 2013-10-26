@@ -1,0 +1,69 @@
+/* Login properties ======================================================== */
+.main2 {
+	width:700px; 	
+	padding:0;
+	margin:0 auto;
+	font-size:0.875em;
+	line-height:1.714em;
+	position:relative;
+	text-align: center;
+}
+/***** contact form *****/
+#login-contact-form {display:block;}
+	#login-contact-form label {
+		display:block; 
+		height:30px; 
+		overflow:hidden;
+	}
+	#login-contact-form input {
+		float:left; 
+		width:322px; 
+		font-size:12px; 
+		line-height:1.25em;
+		color:#4c4c4c;
+		margin:10px 10px; 
+		font-family:Arial, Helvetica, sans-serif; 
+		border:1px solid #dcddd9; 
+		background:url(../images/bg-tail.png) 0 0 repeat;
+	}
+	#login-contact-form textarea {
+		float:left;
+		height:215px; 
+		width:522px; 
+		font-size:12px; 
+		line-height:1.25em;
+		color:#4c4c4c;
+		padding:4px 10px; 
+		margin:0; 
+		font-family:Arial, Helvetica, sans-serif; 
+		border:1px solid #dcddd9; 
+		background:url(../images/bg-tail.png) 0 0 repeat;
+		overflow:auto;
+	}
+.login-text-form {
+	float:left; 
+	display:block; 
+	font-size:14px;
+	line-height:2em;
+	width:73px; 
+	color:#4c4c4c;
+	font-family:Arial, Helvetica, sans-serif;
+	margin-left: 10px;
+}
+.login-label {
+	margin-left: 10px;
+}
+.indent-login{
+	width: 500px;
+	text-align: center;
+}
+.login-content{
+	display: inline-block;
+	width:500px;
+	padding:30px 0 43px;
+	background:url(../images/content-tail.png) left top repeat;
+	position:relative;
+	z-index:1;
+}
+.login-buttons {padding:20px 0 0 0; text-align:center;}
+.login-buttons a {margin-right:10px;}	
