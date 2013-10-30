@@ -72,7 +72,7 @@
                                 <li><a class="active" href="index.php">Inicio</a></li>
                                 <li><a href="orders_lists.php">Lista de Ordenes</a></li>
                                 <li><a href="#">Kardex</a></li>
-                                <li><a href="#">Datos</a></li>
+                                <li><a href="datos.php">Datos</a></li>
                                 <li><a href="#">Ayuda</a></li>
                                 <li class="last"><a href="../controllers/logout.php">Logout</a></li>
                             </ul>
@@ -147,7 +147,7 @@
                                     <h3>Datos</h3>
                                     <p>El siguiente link le permite agregar y/o modificar precios, productos, proveedores, marcas y todo lo relacionado con logistica. <a class="link" href="#">Insertar Datos</a>. <a class="link" href="mailto:usilsoft@outlook.com">Contactenos</a> (Porfavor contactenos en caso detecte algun error).</p>
                                     <div class="relative">
-                                        <a class="button-2" href="#">Ir a Datos</a>
+                                        <a class="button-2" href="datos.php">Ir a Datos</a>
                                     </div>
                                 </article>
                             </div>
