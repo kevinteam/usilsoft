@@ -39,11 +39,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title></title>
+    <title>Lista de Ordenes</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="css/orderslists-creation-style.css" type="text/css" media="screen">
     <link href='http://fonts.googleapis.com/css?family=Adamina' rel='stylesheet' type='text/css'>   
     <script src="js/jquery-1.6.3.min.js" type="text/javascript"></script>
     <script src="js/cufon-yui.js" type="text/javascript"></script>
@@ -111,6 +112,7 @@
 		                    <table border="1" style="width:100%">
 								<thead>
 									<tr>
+                                        <th>VER LISTA DE ORDENES</th>
 										<th>ID ORDEN DE COMPRA</th>
 										<th>PROVEEDOR</th>
 										<th>FECHA DE CREACION</th>
@@ -118,10 +120,11 @@
 										<th>ESTADO</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody class="align-center">
 <?php							foreach ($lista as $r)
 								{ ?>
 									<tr>
+                                        <td><a href="orders_lists_update.php?listaid=<?php echo $r['orderListID']; ?>">IR</a></td>
 										<td><?php echo $r['orderID']; ?></td>
 										<td><?php echo $r['supplier']; ?></td>
 										<td><?php echo $r['creationDate']; ?></td>
@@ -135,7 +138,6 @@
 							</table>
 							<ul>
 								<li><a href="orders_lists_creation.php">Crear Lista de Ordenes de Compra</a></li>
-								<li><a href="orders_lists_update.php">Modificar Lista de Ordenes</a></li>
 								<li><a href="index.php">Volver</a></li>						
 							</ul>
                         </div>

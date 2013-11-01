@@ -1,7 +1,37 @@
 <?php
     session_start();
-    include_once("../modulo/logeado.php");
-?>
+    $logeado = (isset($_SESSION['usuario']) && isset($_SESSION['nombre_usuario'])) ? true : false;
+    
+    if($logeado==true)
+    {
+        $idusuario = $_SESSION['usuario'];
+    }
+    else
+    {
+        header("Location: login.php");
+        exit();
+    }
+
+    /* CONEXION BASE DE DATOS */
+    include_once("../modulo/conexion.php");
+    mysql_connect($server,$mysqllogin,$mysqlpass) or die(mysql_error());
+    mysql_select_db($db) or die(mysql_error());
+
+    $query= "SELECT Products.product, Products.description, Branchs.branch, Units.unit, ProductsTypes.productType FROM
+             Products INNER JOIN  Branchs ON Branchs.branchID = Products.branchID 
+                      INNER JOIN  Units ON Products.unitID = Units.unitID
+                      INNER JOIN  ProductsTypes ON Products.ProductTypeID = ProductsTypes.productTypeID 
+                      ";
+    $resultado = mysql_query($query);
+
+
+    $campos = array();
+    while ($row = mysql_fetch_array($resultado)) {
+    $campos[]=$row;
+    }
+
+    
+?> 
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,6 +40,7 @@
     <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="css/table.css" type="text/css" media="screen">
     <link href='http://fonts.googleapis.com/css?family=Adamina' rel='stylesheet' type='text/css'>   
     <script src="js/jquery-1.6.3.min.js" type="text/javascript"></script>
     <script src="js/cufon-yui.js" type="text/javascript"></script>
@@ -23,6 +54,7 @@
     <script src="js/jquery.easing.1.3.js" type="text/javascript"></script>
     <script src="js/tms-0.3.js" type="text/javascript"></script>
     <script src="js/tms_presets.js" type="text/javascript"></script>
+    <script src="js/scriptSort.js" type="text/javascript"></script>
 	<!--[if lt IE 7]>
     <div style=' clear: both; text-align:center; position: relative;'>
         <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
@@ -61,7 +93,7 @@
                             <ul class="menu">
                                 <li><a class="active" href="index.php">Inicio</a></li>
                                 <li><a href="orders_lists.php">Lista de Ordenes</a></li>
-                                <li><a href="kardex.php">Kardex</a></li>
+                                <li><a href="#">Kardex</a></li>
                                 <li><a href="datos.php">Datos</a></li>
                                 <li><a href="#">Ayuda</a></li>
                                 <li class="last"><a href="../controllers/logout.php">Logout</a></li>
@@ -76,70 +108,60 @@
         <div class="inner">
             <div class="main">
                 <section id="content">
-                    <div class="slider">
-                        <ul class="items">
-                            <li>
-                                <img src="images/slider-img1.jpg" alt="" />
-                                <div class="banner">
-                                    <strong class="title">
-                                        <strong>Lista de </strong><em>Ordenes</em>
-                                    </strong>
-                                    <p class="p3">Podra generar la lista de ordenes de forma dinamica.</p>
-                                    <a class="button-1" href="orders_lists.php">Ir a Ordenes</a>
-                                </div>
-                            </li>
-                            <li>
-                                <img src="images/slider-img2.jpg" alt="" />
-                                <div class="banner">
-                                    <strong class="title">
-                                        <strong>Creacion de</strong><em>Kardex</em>
-                                    </strong>
-                                    <p>Podra crear un kardex automaticamente.</p>
-                                    <a class="button-1" href="kardex.php">Ir a Kardex</a>
-                                </div>
-                            </li>
-                            <li>
-                                <img src="images/slider-img3.jpg" alt="" />
-                                <div class="banner">
-                                    <strong class="title">
-                                        <strong>Inserccion de</strong><em>Datos</em>
-                                    </strong>
-                                    <p>Ahora podra facilmente agregar proveedores,productos,marcas,etc.</p>
-                                    <a class="button-1" href="datos.php">Ir a Datos</a>
-                                </div>
-                            </li>
-                        </ul>
-                        <a class="banner-2" href="#"></a>
-                    </div>
-                    <ul class="pags">
-                        <li><a href="orders_lists.php">1</a></li>
-                        <li><a href="kardex.php">2</a></li>
-                        <li><a href="datos.php">3</a></li>
-                    </ul>
+                    
                     <div class="bg">
                         <div class="padding">
                             <div class="wrapper">
-                                <article class="col-1">
-                                    <h3>Lista de Ordenes</h3>
-                                    <p>El siguiente link le permite generar y modificar listas de ordenes. Esta herramienta le permitira realizarlo con suma facilidad.</p>
-                                    <div class="relative">
-                                        <a class="button-2" href="orders_lists.php">Ir a Lista de Ordenes</a>
-                                    </div>
-                                </article>
-                                <article class="col-1">
-                                    <h3>Kardex</h3>
-                                    <p>El siguiente link le permite generar el kardex automaticamente.</p>
-                                    <div class="relative">
-                                        <a class="button-2" href="kardex.php">Ir a Kardex</a>
-                                    </div>
-                                </article>
-                                <article class="col-2">
-                                    <h3>Datos</h3>
-                                    <p>El siguiente link le permite agregar y/o modificar precios, productos, proveedores, marcas y todo lo relacionado con logistica. <a class="link" href="#">Insertar Datos</a>. <a class="link" href="mailto:usilsoft@outlook.com">Contactenos</a> (Porfavor contactenos en caso detecte algun error).</p>
-                                    <div class="relative">
-                                        <a class="button-2" href="datos.php">Ir a Datos</a>
-                                    </div>
-                                </article>
+                               
+<article class="tabla">
+                        <h3>Listado de Productos</h3>
+        <!--<form action="marcas.php" method="get">
+        <p>Buscar canci&oacute;n: <input value="<?php echo $buscar ?>" type="search" name="buscar" placeholder="Ingrese su b&uacute;squeda" autofocus/> <input type="submit" value="Buscar"/> </p>
+        </form> -->
+        <br/>
+                        <table class="sortable" id="sorter">
+                        <tr>
+                            
+                            <th>Product Name</th>
+                            <th>Branch</th>
+                            <th>Product Type</th>
+                            <th>Units</th>
+                            <th>Description</th>
+
+                            <th colspan="2">Acciones</th>
+                        </tr>
+                        <?php foreach ($campos as $c) { ?>
+                        <tr>
+                            
+                             <td><?php echo $c[0]?></td>
+                             <td><?php echo $c[2]?></td>
+                             <td><?php echo $c[4]?></td>
+                             <td><?php echo $c[3]?></td>
+                             <td><?php echo $c[1]?></td>
+                              <td>    
+                    <form action="borrar_marca.php" method="post">
+                        <input value="<?php echo $m['branchID']?>" type="hidden" name="id" /> 
+                        <input type="image" alt="boton borrar" src="images/delete.png" title="Eliminar"/>
+                    </form>
+                </td>
+                <td>
+                    <form action="editar_marca.php" method="get">
+                        <input value="<?php echo $m['branchID']?>" type="hidden" name="id" />
+                        <input type="image" alt="boton editar" src="images/edit.png" title="Editar"/>
+                    </form>
+                </td>
+                         </tr>
+                         <?php } ?>
+                     </table>
+
+
+        <br/>
+        <a class="button-1" href="agregar_producto.php">Agregar Producto</a>      
+        </article>
+
+
+
+
                             </div>
                         </div>
                     </div>
@@ -147,17 +169,10 @@
                         <div class="indent-top">
                             <div class="wrapper">
                                 <article class="col-3">
-                                    <h4><strong>Bienvenido</strong> <em>a la seccion Logistica</em></h4>
-                                    <p class="color-2 p1">En esta pagina usted podra encontrar todas las herramientas necesarias para llevar un eficiente control de logistica. La cual cuenta con los siguiente:</p>
-                                    <ul class="list-1">
-                                        <li><a href="orders_lists.php">Agregar y modificar listas de ordenes</a></li>
-                                        <li><a href="#">Generar Kardex</a></li>
-                                        <li><a href="#">Agregar y/o modificar datos diversos de elementos de logistica y almacen</a></li>
-                                    </ul>
+                                   
                                 </article>
                                 <div class="extra-wrap">
-                                    <a href="#"><img src="images/banner-1.jpg" alt="" /></a>
-                                </div>
+                                                                    </div>
                             </div>
                         </div>
                     </div>
@@ -186,6 +201,10 @@
             </div>
         </div>
     </footer>
+    <script type="text/javascript">
+        var sorter=new table.sorter("sorter");
+        sorter.init("sorter",1);
+    </script> 
     <script type="text/javascript"> Cufon.now(); </script>
     <script type="text/javascript">
 		$(window).load(function() {

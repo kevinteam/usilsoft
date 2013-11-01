@@ -1,6 +1,16 @@
 <?php
     session_start();
-    include_once("../modulo/logeado.php");
+    $logeado = (isset($_SESSION['usuario']) && isset($_SESSION['nombre_usuario'])) ? true : false;
+    
+    if($logeado==true)
+    {
+        $idusuario = $_SESSION['usuario'];
+    }
+    else
+    {
+        header("Location: login.php");
+        exit();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -61,7 +71,7 @@
                             <ul class="menu">
                                 <li><a class="active" href="index.php">Inicio</a></li>
                                 <li><a href="orders_lists.php">Lista de Ordenes</a></li>
-                                <li><a href="kardex.php">Kardex</a></li>
+                                <li><a href="#">Kardex</a></li>
                                 <li><a href="datos.php">Datos</a></li>
                                 <li><a href="#">Ayuda</a></li>
                                 <li class="last"><a href="../controllers/logout.php">Logout</a></li>
@@ -76,91 +86,35 @@
         <div class="inner">
             <div class="main">
                 <section id="content">
-                    <div class="slider">
-                        <ul class="items">
-                            <li>
-                                <img src="images/slider-img1.jpg" alt="" />
-                                <div class="banner">
-                                    <strong class="title">
-                                        <strong>Lista de </strong><em>Ordenes</em>
-                                    </strong>
-                                    <p class="p3">Podra generar la lista de ordenes de forma dinamica.</p>
-                                    <a class="button-1" href="orders_lists.php">Ir a Ordenes</a>
-                                </div>
-                            </li>
-                            <li>
-                                <img src="images/slider-img2.jpg" alt="" />
-                                <div class="banner">
-                                    <strong class="title">
-                                        <strong>Creacion de</strong><em>Kardex</em>
-                                    </strong>
-                                    <p>Podra crear un kardex automaticamente.</p>
-                                    <a class="button-1" href="kardex.php">Ir a Kardex</a>
-                                </div>
-                            </li>
-                            <li>
-                                <img src="images/slider-img3.jpg" alt="" />
-                                <div class="banner">
-                                    <strong class="title">
-                                        <strong>Inserccion de</strong><em>Datos</em>
-                                    </strong>
-                                    <p>Ahora podra facilmente agregar proveedores,productos,marcas,etc.</p>
-                                    <a class="button-1" href="datos.php">Ir a Datos</a>
-                                </div>
-                            </li>
-                        </ul>
-                        <a class="banner-2" href="#"></a>
-                    </div>
-                    <ul class="pags">
-                        <li><a href="orders_lists.php">1</a></li>
-                        <li><a href="kardex.php">2</a></li>
-                        <li><a href="datos.php">3</a></li>
-                    </ul>
+
                     <div class="bg">
                         <div class="padding">
                             <div class="wrapper">
                                 <article class="col-1">
-                                    <h3>Lista de Ordenes</h3>
-                                    <p>El siguiente link le permite generar y modificar listas de ordenes. Esta herramienta le permitira realizarlo con suma facilidad.</p>
+                                    <h3>Lista de Marcas</h3>
+                                    <p>El siguiente link le permite generar y modificar listas de Marcas. Esta herramienta le permitira realizarlo con suma facilidad.</p>
                                     <div class="relative">
-                                        <a class="button-2" href="orders_lists.php">Ir a Lista de Ordenes</a>
+                                        <a class="button-2" href="lista_marcas.php">Ir a Marcas</a>
                                     </div>
                                 </article>
                                 <article class="col-1">
-                                    <h3>Kardex</h3>
-                                    <p>El siguiente link le permite generar el kardex automaticamente.</p>
+                                    <h3>Lista de Proveedores</h3>
+                                    <p>El siguiente link le permite generar y modificar listas de Proveedores. Esta herramienta le permitira realizarlo con suma facilidad.</p>
                                     <div class="relative">
-                                        <a class="button-2" href="kardex.php">Ir a Kardex</a>
+                                        <a class="button-2" href="lista_proveedores.php">Ir a Proveedores</a>
                                     </div>
                                 </article>
                                 <article class="col-2">
-                                    <h3>Datos</h3>
-                                    <p>El siguiente link le permite agregar y/o modificar precios, productos, proveedores, marcas y todo lo relacionado con logistica. <a class="link" href="#">Insertar Datos</a>. <a class="link" href="mailto:usilsoft@outlook.com">Contactenos</a> (Porfavor contactenos en caso detecte algun error).</p>
+                                    <h3>Lista de Productos</h3>
+                                    <p>El siguiente link le permite generar y modificar listas de Productos. Esta herramienta le permitira realizarlo con suma facilidad.</p>
                                     <div class="relative">
-                                        <a class="button-2" href="datos.php">Ir a Datos</a>
+                                        <a class="button-2" href="lista_productos.php">Ir a Productos</a>
                                     </div>
                                 </article>
                             </div>
                         </div>
                     </div>
-                    <div class="padding-2">
-                        <div class="indent-top">
-                            <div class="wrapper">
-                                <article class="col-3">
-                                    <h4><strong>Bienvenido</strong> <em>a la seccion Logistica</em></h4>
-                                    <p class="color-2 p1">En esta pagina usted podra encontrar todas las herramientas necesarias para llevar un eficiente control de logistica. La cual cuenta con los siguiente:</p>
-                                    <ul class="list-1">
-                                        <li><a href="orders_lists.php">Agregar y modificar listas de ordenes</a></li>
-                                        <li><a href="#">Generar Kardex</a></li>
-                                        <li><a href="#">Agregar y/o modificar datos diversos de elementos de logistica y almacen</a></li>
-                                    </ul>
-                                </article>
-                                <div class="extra-wrap">
-                                    <a href="#"><img src="images/banner-1.jpg" alt="" /></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   
                 </section>
                 <div class="block"></div>
             </div>

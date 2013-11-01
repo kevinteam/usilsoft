@@ -267,9 +267,9 @@
                     var orden_array = [];
                     orden_array.push(orden_json.items[i].orden[1]);
                     orden_array.push(orden_json.items[i].orden[0]);
-                    orden_array.push(proveedor);
                     orden_array.push(orden_json.items[i].orden[2]);
                     orden_array.push(orden_json.items[i].orden[3]);
+                    orden_array.push(proveedor);
                     orden_array.push(ruc);
                     orden_array.push(orden_json.items[i].orden[4]);                    
                     orden_array.push("En proceso");
@@ -282,7 +282,7 @@
                     val_array.push(orden_json.items[i].orderval[3]);
                     val_array.push(orden_json.items[i].orderval[4]);
                     val_array.push(orden_json.items[i].orderval[5]);
-                    lista_json.items.push({id:orden_json.items[i].id,orden:orden_array,orderval:val_array});
+                    lista_json.items.push({id:orden_json.items[i].id,orden:orden_array,orderval:val_array,user:<?php echo $userid; ?>});
                 }
                 orden_json = {items:[]};
             });
@@ -308,6 +308,7 @@
             }
             $('#popfechaentrega').datetimepicker({
                 dateFormat: "d/m/yy",
+                minDate:0,
                 timeFormat: "hh:mm:ss tt"
             });
         }
@@ -351,8 +352,8 @@
                             <ul class="menu">
                                 <li><a href="index.php">Inicio</a></li>
                                 <li><a class="active" href="orders_lists.php">Lista de Ordenes</a></li>
-                                <li><a href="#">Kardex</a></li>
-                                <li><a href="#">Datos</a></li>
+                                <li><a href="kardex.php">Kardex</a></li>
+                                <li><a href="datos.php">Datos</a></li>
                                 <li><a href="#">Ayuda</a></li>
                                 <li class="last"><a href="../controllers/logout.php">Logout</a></li>
                             </ul>
@@ -371,7 +372,7 @@
                                 <p id="prinerror" style="color:red;"></p>
                                 <div class="indent-left">
                                     <div class="orderslist-col1">
-                                        <h3>AGREGAR LISTA</h3>    
+                                        <h3>ORDENES DE COMPRA</h3>    
                                         <h6>Proveedor</h6>
                                         <p>
                                             <select name="proveedores" id="proveedores">
@@ -389,7 +390,7 @@
                                     </div>
                                     <div class="orderslist-col2">
                                         <div class="relative relative-center">
-                                            <a class="button-2" id="crearorden" data-reveal-id="" href="#">Agregar a la Lista</a>
+                                            <a class="button-2" id="crearorden" data-reveal-id="" href="#">Agregar Orden</a>
                                         </div>
                                     </div>
                                 </div>
@@ -410,9 +411,9 @@
                                     <th>#</th>
                                     <th>PRODUCTO</th>
                                     <th>MARCA</th>
-                                    <th>PROVEEDOR</th>
                                     <th>CANTIDAD</th>
                                     <th>COSTO</th>
+                                    <th>PROVEEDOR</th>
                                     <th>RUC</th>
                                     <th>F. ENTREGA</th>
                                     <th>ESTADO</th>

@@ -20,7 +20,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title></title>
+    <title>Login</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">

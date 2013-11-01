@@ -18,7 +18,7 @@
             date_default_timezone_set('America/Lima');
             $json = json_decode($proveedor,true);
             $estado = 1;
-            $usuario = 1;
+            $usuario = (int)$json['items'][0]['user'];
             $fechacreacion = date('Y-m-d H:i:s');
             $query = "INSERT INTO OrdersLists(creationDate,userID) VALUES ('$fechacreacion', '$usuario')" ;
             $resultado = mysqli_query($link, $query) or die(mysqli_error($link));

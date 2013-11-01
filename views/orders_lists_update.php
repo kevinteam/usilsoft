@@ -1,12 +1,42 @@
 <?php
-	if($_SERVER['REQUEST_METHOD'] == 'GET')
+	if(($_SERVER['REQUEST_METHOD'] == 'GET') AND isset($_GET['listaid']))
 	{
 		session_start();
 		$logeado = (isset($_SESSION['usuario']) && isset($_SESSION['nombre_usuario'])) ? true : false;
 		if($logeado)
 		{
 			$userid = (int)($_SESSION['usuario']);
-		}
+            $listaid = (int)($_GET['listaid']);
+			/* CONEXION BASE DE DATOS */
+			include_once("../modulo/conexion.php"); 
+			mysql_connect($server,$mysqllogin,$mysqlpass) or die(mysql_error());
+			mysql_select_db($db) or die(mysql_error());
+			/* FIN CONEXION BASE DE DATOS */
+
+			/* LISTA DE ORDENES */
+			$query = "SELECT * FROM OrdersLists, Users WHERE OrdersLists.userID = Users.userID AND OrdersLists.orderListID = '$listaid'";
+			$resultado = mysql_query($query) or die(mysql_error());
+			$lista = array();
+			while($row = mysql_fetch_array($resultado))
+			{
+				$lista[] = $row;
+			}
+            /* FIN LISTA DE ORDENES */
+		    
+            /* LISTA DE ORDENES */
+            $query = "SELECT * FROM Orders, Suppliers, States, Products, Currencies,Units WHERE Orders.orderListID = '$listaid' AND Orders.supplierID = Suppliers.supplierID AND Orders.stateID = States.stateID AND Orders.productID = Products.productID AND Orders.currencyID = Currencies.currencyID AND Products.unitID = Units.unitID";
+            $resultado = mysql_query($query) or die(mysql_error());
+            mysql_close();
+            $lista2 = array();
+            $simbolo = "S/.";
+            $total = 0.0;
+            while($row = mysql_fetch_array($resultado))
+            {
+                $lista2[] = $row;
+                $total = $total+$row['cost'];
+            }
+            /* FIN LISTA DE ORDENES */
+        }
 		else
 		{
 			header("Location: index.php");
@@ -22,11 +52,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title></title>
+    <title>Lista de Ordenes</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="css/orderslists-creation-style.css" type="text/css" media="screen">
     <link href='http://fonts.googleapis.com/css?family=Adamina' rel='stylesheet' type='text/css'>   
     <script src="js/jquery-1.6.3.min.js" type="text/javascript"></script>
     <script src="js/cufon-yui.js" type="text/javascript"></script>
@@ -91,11 +122,70 @@
                 <section id="content">
                     <div class="indent">
                     	<div class="wrapper">
-                            <p>EN CONSTRUCCION</p>
+		                    <table border="1" style="width:100%">
+								<thead>
+									<tr>
+										<th>ID LISTA DE ORDENES DE COMPRA</th>
+										<th>USUARIO ENCARGADO</th>
+                                        <th>FECHA DE CREACION</th>
+									</tr>
+								</thead>
+								<tbody class="align-center">
+<?php							foreach ($lista as $l)
+								{ ?>
+									<tr>
+										<td><?php echo $l['orderListID']; ?></td>
+										<td><?php echo $l['last'].", ".$l['name']; ?></td>
+										<td><?php echo $l['creationDate']; ?></td>
+									</tr>
+<?php							} ?>
+								</tbody>
+								<tfoot>							
+								</tfoot>
+							</table>
+                            <table border="1" style="width:100%; margin-top:30px;">
+                                <thead>
+                                    <tr>
+                                        <th>ID ORDEN</th>
+                                        <th>FECHA DE CREACION</th>
+                                        <th>FECHA DE ENTREGA</th>
+                                        <th>PROVEEDOR</th>
+                                        <th>RUC</th>
+                                        <th>CANTIDAD</th>
+                                        <th>COSTO</th>
+                                        <th>ESTADO</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="align-center">
+<?php                           foreach ($lista2 as $o)
+                                { ?>
+                                    <tr>
+                                        <td><?php echo $o['orderID']; ?></td>
+                                        <td><?php echo $o['creationDate']; ?></td>
+                                        <td><?php echo $o['deliveryDate']; ?></td>
+                                        <td><?php echo $o['supplier']; ?></td>
+                                        <td><?php echo $o['ruc']; ?></td>
+                                        <td><?php echo $o['qty']." ".$o['unit']; ?></td>
+                                        <td><?php echo $o['symbol']." ".$o['cost']; ?></td>
+                                        <td><?php echo $o['state']; ?></td>
+                                    </tr>
+<?php                           } ?>
+                                    <tr>
+                                        <td>TOTAL:</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><?php echo $simbolo." ".$total; ?></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>                         
+                                </tfoot>
+                            </table>
 							<ul>
-								<li><a href="orders_lists_creation.php">Crear Lista de Ordenes de Compra</a></li>
-								<li><a href="orders_lists_update.php">Modificar Lista de Ordenes</a></li>
-								<li><a href="orders_lists.php">Volver</a></li>						
+								<li><a href="index.php">Volver</a></li>						
 							</ul>
                         </div>
                     </div>
