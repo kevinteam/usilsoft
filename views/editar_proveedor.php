@@ -5,7 +5,7 @@
     include_once("../modulo/conexion.php");
     include_once("../modulo/conexion_mysql.php");
     $id=$_GET["id"];
-    $query = "SELECT * from suppliers WHERE supplierID='$id'";
+    $query = "SELECT * from Suppliers WHERE supplierID='$id'";
     $resultado = mysql_query($query) or die(mysql_error());
 
     $proveedor = array();

@@ -93,8 +93,8 @@
                             <ul class="menu">
                                 <li><a href="index.php">Inicio</a></li>
                                 <li><a class="active" href="orders_lists.php">Lista de Ordenes</a></li>
-                                <li><a href="#">Kardex</a></li>
-                                <li><a href="#">Datos</a></li>
+                                <li><a href="kardex.php">Kardex</a></li>
+                                <li><a href="datos.php">Datos</a></li>
                                 <li><a href="#">Ayuda</a></li>
                                 <li class="last"><a href="../controllers/logout.php">Logout</a></li>
                             </ul>

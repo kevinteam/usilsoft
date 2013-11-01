@@ -25,8 +25,9 @@
             $insertado = true;
             if (mysqli_affected_rows ( $link )<1)
             {
+                $insertado = false;
                 mysqli_close($link);
-                header("Location: ../views/index.php");
+                header("Location: ../views/orders_lists_result.php?resultado='$insertado'");
                 exit();
             }
             else

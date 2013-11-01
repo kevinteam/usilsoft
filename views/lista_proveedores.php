@@ -6,7 +6,7 @@
     include_once("../modulo/conexion.php");
     include_once("../modulo/conexion_mysql.php");
 
-    $query = "SELECT * from suppliers";
+    $query = "SELECT * from Suppliers";
     $resultado = mysql_query($query) or die(mysql_error());
 
     $proveedores = array();
