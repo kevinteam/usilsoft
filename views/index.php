@@ -112,7 +112,7 @@
                         <a class="banner-2" href="#"></a>
                     </div>
                     <ul class="pags">
-                        <li><a href="orders_lists.php">1</a></li>
+                    	<li><a href="orders_lists.php">1</a></li>
                         <li><a href="kardex.php">2</a></li>
                         <li><a href="datos.php">3</a></li>
                     </ul>
