@@ -63,7 +63,6 @@
                                 <li><a href="orders_lists.php">Lista de Ordenes</a></li>
                                 <li><a href="kardex.php">Kardex</a></li>
                                 <li><a href="datos.php">Datos</a></li>
-                                <li><a href="#">Ayuda</a></li>
                                 <li class="last"><a href="../controllers/logout.php">Logout</a></li>
                             </ul>
                         </nav>

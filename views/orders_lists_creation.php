@@ -71,6 +71,7 @@
     <link rel="stylesheet" href="css/reveal.css" type="text/css" media="screen">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" media="screen">    
     <link href='http://fonts.googleapis.com/css?family=Adamina' rel='stylesheet' type='text/css'>   
+    <link rel="stylesheet" href="css/sortedtable.css" type="text/css" media="screen">    
     <script src="http://code.jquery.com/jquery-2.0.3.min.js" type="text/javascript"></script>
     <script>
         jquery2 = jQuery.noConflict( true );
@@ -292,19 +293,23 @@
                 var tbody = table.getElementsByTagName('tbody')[0];
                 var rowCount = 0;//(jquery2)('#'+tableID).find('tbody > tr').length;
                 var row = tbody.insertRow(tbody.rows.length);
-                var cell1 = row.insertCell(0);
+                var arregloCount = arreglo.length;
+                for(var i=0;i<arregloCount;i++)
+                {
+                    var cell = row.insertCell(i);
+                    cell.innerHTML = arreglo[i];
+                }
+                var lastcell = row.insertCell(arregloCount);
                 var element1 = document.createElement('a');
                 element1.setAttribute("href", "#");
                 element1.setAttribute("ref",ref);
                 element1.setAttribute("class", "borrar");
-                element1.innerHTML = "Borrar";
-                cell1.appendChild(element1);
-                var arregloCount = arreglo.length;
-                for(var i=0;i<arregloCount;i++)
-                {
-                    var cell = row.insertCell(i+1);
-                    cell.innerHTML = arreglo[i];
-                }
+                var imgdel = document.createElement('img');
+                imgdel.setAttribute("src","images/delete.png");
+                imgdel.setAttribute("alt","Borrar");
+                element1.appendChild(imgdel);
+                //element1.innerHTML = "Borrar";
+                lastcell.appendChild(element1);
             }
             $('#popfechaentrega').datetimepicker({
                 dateFormat: "d/m/yy",
@@ -354,7 +359,6 @@
                                 <li><a class="active" href="orders_lists.php">Lista de Ordenes</a></li>
                                 <li><a href="kardex.php">Kardex</a></li>
                                 <li><a href="datos.php">Datos</a></li>
-                                <li><a href="#">Ayuda</a></li>
                                 <li class="last"><a href="../controllers/logout.php">Logout</a></li>
                             </ul>
                         </nav>
@@ -366,13 +370,14 @@
         <div class="inner">
             <div class="main">
                 <section id="content">
+                    <fieldset id="fieldset1">
+                    <legend>ORDENES DE COMPRA</legend>
                     <div class="indent">
                         <div class="wrapper">
                             <article class="col-1">
                                 <p id="prinerror" style="color:red;"></p>
                                 <div class="indent-left">
                                     <div class="orderslist-col1">
-                                        <h3>ORDENES DE COMPRA</h3>    
                                         <h6>Proveedor</h6>
                                         <p>
                                             <select name="proveedores" id="proveedores">
@@ -408,15 +413,15 @@
                         <table id="tprincipal" border="1" style="width:100%">
                             <thead class="align-center">
                                 <tr>
-                                    <th>#</th>
                                     <th>PRODUCTO</th>
                                     <th>MARCA</th>
                                     <th>CANTIDAD</th>
-                                    <th>COSTO</th>
+                                    <th>SUBTOTAL</th>
                                     <th>PROVEEDOR</th>
                                     <th>RUC</th>
                                     <th>F. ENTREGA</th>
                                     <th>ESTADO</th>
+                                    <th>#</th>
                                 </tr>
                             </thead>
                             <tbody class="align-center">
@@ -433,16 +438,17 @@
                             <a class="button-2" href="#" id="enviar_lista">Generar Lista de Ordenes</a>
                         </div>
                     </div>
+                    </fieldset>
                 </section>
                 <div class="block"></div>
             </div>
         </div>
     </div>
     <div id="myModal" class="reveal-modal">
-        <p>Orden de Compra</p>
+        <fieldset>
+        <legend>Orden de Compra</legend>
         <div class="p3">
             <form id="login-contact-form" action="../controllers/process_login.php" method="post" enctype="multipart/form-data">                    
-                <fieldset>
                     <p id="poperror" style="color:red;"></p>
                     <label class="login-label">
                         <span class="login-text-form">Marca:</span>
@@ -486,12 +492,12 @@
                     <table id="tpop" border="1" style="width:100%">
                         <thead class="align-center">
                             <tr>
-                                <th>#</th>
                                 <th>MARCA</th>
                                 <th>PRODUCTO</th>
                                 <th>CANTIDAD</th>
-                                <th>COSTO</th>
+                                <th>SUBTOTAL</th>
                                 <th>FECHA DE ENTREGA</th>
+                                <th>#</th>
                             </tr>
                         </thead>
                         <tbody class="align-center">
@@ -501,10 +507,10 @@
                     </table>
                             <a class="button-2 close-reveal-modal" id="agregarlista" href="#">Agregar a Lista</a>
                 </div>                            
-            </fieldset>                     
         </form>
         </div>
         <a class="close-reveal-modal x-close-reveal-modal">&#215;</a>
+            </fieldset>                     
     </div>
 	<!--==============================footer=================================-->
     <footer>
