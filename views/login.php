@@ -20,13 +20,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Login</title>
+    <title></title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="css/login-style.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
     <link href='http://fonts.googleapis.com/css?family=Adamina' rel='stylesheet' type='text/css'>   
+    <link rel="stylesheet" href="css/login-style2.css" type="text/css" media="screen">
     <script src="js/jquery-1.6.3.min.js" type="text/javascript"></script>
     <script src="js/cufon-yui.js" type="text/javascript"></script>
     <script src="js/cufon-replace.js" type="text/javascript"></script>
@@ -36,9 +36,14 @@
     <script src="js/easyTooltip.js" type="text/javascript"></script>
 	<script src="js/script.js" type="text/javascript"></script>
     <script src="js/bgSlider.js" type="text/javascript"></script>
-    <script src="js/jquery.easing.1.3.js" type="text/javascript"></script>
-    <script src="js/tms-0.3.js" type="text/javascript"></script>
-    <script src="js/tms_presets.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function(){
+            $('#sublog').keyup(function(ev){
+                if(ev.which == 13)
+                    $('#contact-form').submit();
+            });
+        });
+    </script>
 	<!--[if lt IE 7]>
     <div style=' clear: both; text-align:center; position: relative;'>
         <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
@@ -51,7 +56,7 @@
         <link rel="stylesheet" href="css/ie.css" type="text/css" media="screen">
 	<![endif]-->
 </head>
-<body id="page1">
+<body id="page6">
 	<div id="bgSlider"></div>
     <div class="bg_spinner"></div>
 	<div class="extra">
@@ -87,26 +92,32 @@
         </header>
         <!--==============================content================================-->
         <div class="inner">
-            <div class="main2">
-                <section class="login-content">
-                    <div class="indent-login">
-                        <h3>Login</h3>
-                        <div class="p3">
-                            <form id="login-contact-form" action="../controllers/process_login.php" method="post" enctype="multipart/form-data">                    
-                                <fieldset>
-                                    <label class="login-label"><span class="login-text-form">Usuario:</span><input name="usuario" type="text" /></label>
-                                    <label class="login-label"><span class="login-text-form">Contraseña:</span><input name="password" type="password" /></label>
-                                    <div class="wrapper">
-                                        <div class="extra-wrap">
-                                            <div class="clear"></div>
-                                            <div class="login-buttons">
-                                                <a class="button-2" href="#" onClick="document.getElementById('login-contact-form').reset()">Limpiar</a>
-                                                <a class="button-2" href="#" onClick="document.getElementById('login-contact-form').submit()">Logearse</a>
-                                            </div> 
+            <div class="main">
+                <section id="content">
+                    <div class="indent">
+                    	<div class="wrapper">
+                        	<article>
+                            	<div>
+                                    <fieldset>
+                                	    <legend>Login</legend>
+                                        <div class="p3">
+                                            <form id="contact-form" action="../controllers/process_login.php" method="post" enctype="multipart/form-data">                    
+                                                <label><span class="text-form">Usuario:</span><input name="usuario" type="text" /></label>
+                                                <label><span class="text-form">Contraseña:</span><input id ="sublog" name="password" type="password" /></label>                              
+                                                <div class="wrapper">
+                                                    <div class="extra-wrap">                                                        
+                                                        <div class="clear"></div>
+                                                        <div>
+                                                            <a class="button-2" href="#" onClick="document.getElementById('contact-form').reset()">Limpiar</a>
+                                                            <a class="button-2" href="#" onClick="document.getElementById('contact-form').submit()">Logearse</a>
+                                                        </div> 
+                                                    </div>
+                                                </div>                            
+                                            </form>
                                         </div>
-                                    </div>                            
-                                </fieldset>                     
-                            </form>
+                                    </fieldset>						
+                                </div>
+                            </article>
                         </div>
                     </div>
                     <span style= "color:red; font-size:15px;"><?php echo $mensaje_error ?></span>
@@ -123,7 +134,6 @@
                 	<div class="fleft footer-text">
                     	<span>Administrador de Restaurantes - Logistica </span> &copy; 2013
                         <strong>Desarrollado por <a rel="nofollow" class="link" target="_blank" href="#">Usilsoft</a></strong>
-                        <!-- {%FOOTER_LINK} -->
                     </div>
                     <ul class="list-services">
                     	<li>Conectate con Nosotros:</li>
@@ -136,19 +146,5 @@
         </div>
     </footer>
     <script type="text/javascript"> Cufon.now(); </script>
-    <script type="text/javascript">
-		$(window).load(function() {
-			$('.slider')._TMS({
-				duration:1000,
-				easing:'easeOutQuart',
-				preset:'simpleFade',
-				slideshow:10000,
-				banners:'fade',
-				pauseOnHover:true,
-				waitBannerAnimation:false,
-				pagination:'.pags'
-			});
-		});
-    </script>
 </body>
 </html>
