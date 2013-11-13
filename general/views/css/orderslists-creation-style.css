@@ -1,0 +1,87 @@
+fieldset{ 
+	border:2px solid #ca4b00;
+	border-radius: .25em;
+	padding: 10px 10px;
+}
+legend{
+	padding: 0.2em 0.5em;
+	color:#ca4b00;
+	font-size:150%;
+}
+.align-center tr{
+	text-align: center;
+}
+.align-right{
+    text-align: right;
+}
+.bkg{
+	background: transparent;
+}
+.bkg .padding{
+	padding: 0 20px 0 20px;
+}
+.login-label select{
+	margin: 10px 10px !important;
+}
+#login-contact-form .login-label input{
+	width: 135px !important;
+}
+.login-text-form{
+	color: blue;
+	font-weight: bold; 
+	margin:5px 10px 0px 10px !important;
+	width: 130px;
+}
+.main{
+    width: 1090px;
+}
+.margen-derecho{
+    margin-right: 30px;
+}
+.orderslist-col1{
+	width:350px;
+	display:inline-block;
+}
+.orderslist-col2{
+	width:220px;
+	display:inline;
+}
+.relative-center{
+	width: 200px;
+	display: inline-block;
+}
+.sortable{
+	margin-left: 45px;
+}
+#agregarlista{
+	margin-top: 15px;
+}
+#popcantidad,#popcosto,#popfechaentrega,#popunidad{
+	width:100px !important;
+}
+#fieldset1{
+	margin: 10px 40px;
+}
+#tprincipal thead{
+	background:#222 6px center no-repeat;
+	color: #ccc;
+}
+#tpop{
+	margin-top: 15px;
+}
+#tpop tbody tr:nth-child(even) {
+	background: #FFF;
+}
+#tpop tbody tr:nth-child(odd) {
+	background: lightgreen;
+}
+#tpop thead {
+	background:#222 7px center no-repeat;
+	color: #ccc;
+}
+#tprincipal tbody tr:nth-child(even) {
+	background: #FFF;
+}
+#tprincipal tbody tr:nth-child(odd) {
+	background: lightgreen;
+}
