@@ -1,5 +1,6 @@
 <?php
-    session_start(); 
+    session_start();
+    $base_general = "../..";
     include_once($base_general."/views/variables.php");
 
     $logeado = (isset($_SESSION['usuario']) && isset($_SESSION['nombre_usuario'])) ? true : false;

@@ -3,17 +3,24 @@
     $base_general       = "../..";
     include_once($base_general."/views/variables.php");
     include_once($base_general."/views/logeado.php");
-
+    
     /* CONEXION BASE DE DATOS */
     include_once($base_general."/data/conexion.php"); 
     include_once($base_general."/views/conexion_mysql.php"); 
+    $id=$_GET["id"];
 
-    $query = "SELECT * from Suppliers";
-    $resultado = mysql_query($query) or die(mysql_error());
+       
+    $query= "SELECT Products.product, Products.description, Branchs.branch, Units.unit, ProductsTypes.productType FROM
+             Products INNER JOIN  Branchs ON Branchs.branchID = Products.branchID 
+                      INNER JOIN  Units ON Products.unitID = Units.unitID
+                      INNER JOIN  ProductsTypes ON Products.ProductTypeID = ProductsTypes.productTypeID where productID ='$id'
+                      ";
+    $resultado = mysql_query($query);
 
-    $proveedores = array();
-    while ($row = mysql_fetch_array($resultado)){
-    $proveedores[] = $row;
+
+    $campos = array();
+    while ($row = mysql_fetch_array($resultado)) {
+    $campos[]=$row;
     }
 ?>
 <!DOCTYPE html>
@@ -38,7 +45,6 @@
     <script src="<?php echo $base_js; ?>/jquery.easing.1.3.js" type="text/javascript"></script>
     <script src="<?php echo $base_js; ?>/tms-0.3.js" type="text/javascript"></script>
     <script src="<?php echo $base_js; ?>/tms_presets.js" type="text/javascript"></script>
-    <script src="<?php echo $base_js; ?>/scriptSort.js" type="text/javascript"></script>
     <style>
         label
         {
@@ -69,61 +75,51 @@
         <div class="inner">
             <div class="main">
                 <section id="content">
-                    <div class="bg">
+                   <div class="bg">
                         <div class="padding">
                             <div class="wrapper">
-                        <article class="tabla">
-                        <h3>Listado de Proveedores</h3>
-                        <!--<form action="marcas.php" method="get">
-                        <p>Buscar canci&oacute;n: <input value="<?php echo $buscar ?>" type="search" name="buscar" placeholder="Ingrese su b&uacute;squeda" autofocus/> <input type="submit" value="Buscar"/> </p>
-                         </form> -->
-                        <br/>
-                        <table class="sortable" id="sorter">
-                        <tr>
-                            <th>ID Proveedor</th>
-                            <th>Nombre del Proveedor</th>
-                            <th>RUC</th>
-                            <th>Dirección</th>
-                            <th colspan="2">Acciones</th>
-                        </tr>
-                        <?php foreach ($proveedores as $p){?>
-                        <tr>
-                        <td> <?php echo $p['supplierID']?></td>
-                        <td> <?php echo $p['supplier']?></td>
-                        <td> <?php echo $p['ruc']?></td>
-                        <td> <?php echo $p['address']?></td>
-                        <td>    
-                            <form action="<?php echo $base_almacen; ?>/controllers/borrar_proveedor.php" method="post">
-                                <input value="<?php echo $m['supplierID']?>" type="hidden" name="id" /> 
-                                <input type="image" alt="boton borrar" src="<?php echo $base_images; ?>/delete.png" title="Eliminar"/>
+                            <?php  foreach ($campos as $p){?>
+                            <form id="proveedor" name="proveedor" action="<?php echo $base_productos; ?>/controllers/actualizar_producto.php" method="post">
+                           <fieldset>
+                            <legend>Editar Producto</legend>     
+                           <input value="<?=$id?>" type="hidden" name="id" />
+                            
+                             <label for="nombre">Nombre: </label>
+                             <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre del producto" required value="<?php echo $p['0']?>"/>
+                             <br>
+
+                              <label for="nombre"> Marca: </label>
+                             <input type="text" name="marca" id="nombre" placeholder="Ingrese el nombre de la marca" required value="<?php echo $p['2']?>"/>
+                             <br>
+
+                              <label for="nombre"> Tipo de Producto: </label>
+                             <input type="text" name="tipo" id="nombre" placeholder="Ingrese el tipo producto" required 
+                             value="<?php echo $p['4']?>"/>
+                             <br>
+
+                             <label for="nombre"> Unidades: </label>
+                             <input type="text" name="unidades" id="nombre" placeholder="Ingrese el tipo producto" required 
+                             value="<?php echo $p['3']?>"/>
+                             <br>
+
+                             <label for="nombre"> Descripcion: </label>
+                             <input type="text" name="descripcion" id="nombre" placeholder="Ingrese el tipo producto" required 
+                             value="<?php echo $p['1']?>"/>
+                             <br>
+                           <?php }?>
+                           <br>      
+                            <input  class="button-1" type="submit" value="Actualizar Producto"/>
+                            </fieldset>
                             </form>
-                        </td>
-                        <td>
-                        <form action="<?php echo $base_almacen; ?>/views/editar_proveedor.php" method="get">
-                            <input value="<?php echo $p['supplierID']?>" type="hidden" name="id" />
-                            <input type="image" alt="boton editar" src="<?php echo $base_images; ?>/edit.png" title="Editar"/>
-                        </form>
-                        
-                            </td>
-                        </tr>
-                        <?php }?>
-                        </table>
-                    <br/>
-                    <a class="button-1" href="<?php echo $base_almacen; ?>/views/agregar_proveedor.php">Agregar Proveedor</a>      
-                    </article>
-                             </div>
+                            </div>
                         </div>
-                    </div>                   
+                    </div>
                 </section>
-                   <div class="block"></div>
+                <div class="block"></div>
             </div>
-        </div>         
-  </div>
-    <script type="text/javascript">
-        var sorter=new table.sorter("sorter");
-        sorter.init("sorter",0);
-    </script>
-<!--==============================footer=================================-->
+        </div>
+    </div>
+	<!--==============================footer=================================-->
     <?php include_once($base_general."/views/footer.php");?>
 </body>
 </html>

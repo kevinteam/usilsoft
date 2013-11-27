@@ -19,8 +19,9 @@
                             <ul class="menu">
                                 <li><a <?php if($pag === 1){ ?> class="active"<?php } ?> href="<?php echo $base_inicial; ?>/views/index.php">Inicio</a></li>
                                 <li><a <?php if($pag === 2){ ?> class="active"<?php } ?> href="<?php echo $base_ordenes; ?>/views/orders_lists.php">Lista de Ordenes</a></li>
-                                <li><a <?php if($pag === 3){ ?> class="active"<?php } ?> href="<?php echo $base_contabilidad; ?>/views/kardex.php">Kardex</a></li>
-                                <li><a <?php if($pag === 4){ ?> class="active"<?php } ?> href="<?php echo $base_inicial; ?>/views/datos.php">Datos</a></li>
+                                <li><a <?php if($pag === 3){ ?> class="active"<?php } ?> href="<?php echo $base_ordenes; ?>/views/recepcion.php">Recepcion de Pedidos</a></li>
+                                <li><a <?php if($pag === 4){ ?> class="active"<?php } ?> href="<?php echo $base_contabilidad; ?>/views/kardex.php">Kardex</a></li>
+                                <li><a <?php if($pag === 5){ ?> class="active"<?php } ?> href="<?php echo $base_inicial; ?>/views/datos.php">Datos</a></li>
                                 <li class="last"><a href="<?php echo $base_general; ?>/controllers/logout.php">Logout</a></li>
                             </ul>
                         </nav>

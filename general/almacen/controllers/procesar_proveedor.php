@@ -25,7 +25,7 @@
 	if($nombre =="" || $direccion =="" || $ruc == ""){
 		$_SESSION['direccion'] = $direccion;
 		$_SESSION["nombre"] = $nombre;
-		header("location: ".$base_almacen."/views/lista_proveedores.php?errorr=vacio");
+		header("location: ../views/lista_proveedores.php?errorr=vacio");
 		exit;
 	}
 	/* 
@@ -41,19 +41,20 @@
 			$resultado = mysql_query($query) or die(mysql_error()) ;
 
 	}else{
-		$query = "UPDATE suppliers SET supplier='$nombre', address='$direccion', ruc='$ruc' WHERE supplierID='$id'";
+		$query = "UPDATE Suppliers SET supplier='$nombre', address='$direccion', ruc='$ruc' WHERE supplierID='$id'";
 
 			$resultado = mysql_query($query) or die(mysql_error()) ;
 	}
 			
 			if($resultado != false )
 			{				
-				header("Location: ".$base_almacen."/views/lista_proveedores.php");
+				echo $base_almacen;
+				header("Location: ../views/lista_proveedores.php");
 				exit();
 			}
 			else
 			{
-				header("Location: ".$base_almacen."/views/lista_proveedores.php?errorregistro");
+				header("Location: ../views/lista_proveedores.php?errorregistro");
 				exit();
 			}
 ?>

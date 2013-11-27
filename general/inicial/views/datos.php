@@ -42,7 +42,7 @@
     <div class="bg_spinner"></div>
 	<div class="extra">
         <!--==============================header=================================-->
-<?php   $pag=4;
+<?php   $pag=5;
         include_once($base_general."/views/header.php");?>
         <!--==============================content================================-->
         <div class="inner">

@@ -18,7 +18,8 @@
 	width: 120px;
 }
 .main{
-    width: 850px;
+    /*width: 850px;*/
+    width:1000px;
 }
 .margen-derecho{
     margin-right: 30px;
@@ -38,12 +39,14 @@
 .sortable{
 	margin-top: 20px;
 	margin-bottom: 20px;
+	width: 950px !important;/**/
 }
 .wrapper{
 	padding-left: 15px;
 }
 #tdatos{
-	width:800px !important;
+	/*width:800px !important;*/
+	width:950px !important;
 }
 #tdatos thead tr th{
 	text-align: center;

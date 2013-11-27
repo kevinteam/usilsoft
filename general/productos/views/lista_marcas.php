@@ -39,6 +39,13 @@
     <script src="<?php echo $base_js; ?>/tms-0.3.js" type="text/javascript"></script>
     <script src="<?php echo $base_js; ?>/tms_presets.js" type="text/javascript"></script>
     <script src="<?php echo $base_js; ?>/scriptSort.js" type="text/javascript"></script>
+    <style>
+        label
+        {
+            padding-top: 0px !important;
+            margin-left: 20%;
+        }
+    </style>
 	<!--[if lt IE 7]>
     <div style=' clear: both; text-align:center; position: relative;'>
         <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
@@ -56,7 +63,7 @@
     <div class="bg_spinner"></div>
 	<div class="extra">
         <!--==============================header=================================-->
-<?php   $pag=4;
+<?php   $pag=5;
         include_once($base_general."/views/header.php");?>
         <!--==============================content================================-->
         <div class="inner">
@@ -76,6 +83,7 @@
                             <th>ID Marca</th>
                             <th>Nombre de Marca</th>
                             <th>Descripción</th>
+                            <th>Estado</th>
                             <th colspan="2">Acciones</th>
                         </tr>
                         <?php foreach ($marcas as $m){?>
@@ -83,6 +91,7 @@
                         <td> <?php echo $m['branchID']?></td>
                         <td> <?php echo $m['branch']?></td>
                         <td> <?php echo $m['description']?></td>
+                        <td> <?php echo $m['status']?'ACTIVO':'INACTIVO'?></td>
                         <td>    
                             <form action="<?php echo $base_productos; ?>/controllers/borrar_marca.php" method="post">
                                 <input value="<?php echo $m['branchID']?>" type="hidden" name="id" /> 

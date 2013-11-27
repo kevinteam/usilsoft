@@ -1,10 +1,10 @@
 <?php
 	session_start();
+	$base_general       = "../..";
 
 	/* CONEXION BASE DE DATOS */
-	include_once("../modulo/conexion.php");
-	mysql_connect($server,$mysqllogin,$mysqlpass) or die(mysql_error());
-	mysql_select_db($db) or die(mysql_error());
+	include_once($base_general."/data/conexion.php"); 
+    include_once($base_general."/views/conexion_mysql.php"); 
 	/* FIN CONEXION BASE DE DATOS */
 	
 	
@@ -14,7 +14,7 @@
 	$tipo=$_POST["tproducto"];
 	$descripcion=$_POST["descripcion"];
 
-	$sql_nombre = "SELECT product FROM products WHERE product='$nombre'";
+	$sql_nombre = "SELECT product FROM Products WHERE product='$nombre'";
 	$resultado_nombre = mysql_query($sql_nombre) or die(mysql_error());
 	$numfilas_nombre = mysql_num_rows($resultado_nombre);
 	
@@ -34,7 +34,7 @@
 	}
 
 	if($nombre != "" && $descripcion!= ""){
-			$query = "INSERT INTO products(product,description,productTypeID,unitID,branchID) VALUES ('$nombre','$descripcion','$tipo','$unidades','$marca')" ;
+			$query = "INSERT INTO Products(product,description,productTypeID,unitID,branchID) VALUES ('$nombre','$descripcion','$tipo','$unidades','$marca')" ;
 			$resultado = mysql_query($query) or die(mysql_error()) ;
 			
 			session_start();

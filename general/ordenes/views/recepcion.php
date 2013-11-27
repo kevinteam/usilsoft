@@ -53,7 +53,7 @@
                 include_once($base_general."/views/conexion_mysql.php"); 
                 /* FIN CONEXION BASE DE DATOS */
             
-                $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM Orders, Suppliers, States WHERE Orders.supplierID = Suppliers.supplierID AND Orders.stateID = States.stateID ORDER BY Orders.orderID ASC LIMIT $offset, $limit";
+                $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM Orders, Suppliers, States WHERE Orders.stateID = 2 AND Orders.supplierID = Suppliers.supplierID AND Orders.stateID = States.stateID ORDER BY Orders.orderID ASC LIMIT $offset, $limit";
                 $sqlTotal = "SELECT FOUND_ROWS() as total";
 
                 $result = mysql_query($sql) or die(mysql_error());
@@ -87,7 +87,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Listas de Ordenes</title>
+    <title>Recepcion de Pedidos</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="<?php echo $base_css; ?>/reset.css" type="text/css" media="screen">
     <link rel="stylesheet" href="<?php echo $base_css; ?>/style.css" type="text/css" media="screen">
@@ -180,7 +180,7 @@
     <div class="bg_spinner"></div>
     <div class="extra">
         <!--==============================header=================================-->
-<?php   $pag=2;
+<?php   $pag=3;
         include_once($base_general."/views/header.php");?>
         <!--==============================content================================-->
         <div class="inner">
@@ -190,24 +190,24 @@
                         <div class="padding">
                             <div class="wrapper">
                                 <article class="tabla">
-                                    <form id="filtrarorden" action="<?php echo $base_ordenes; ?>/controllers/process_filter_lists_orders.php" method="post" enctype="multipart/form-data">
+                                    <form id="filtrarorden" action="<?php echo $base_ordenes; ?>/controllers/process_filter_recepcion.php" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="isfiltered" value="yes">
-                                        <label style="float:left; width:160px;">Fecha Inicial Creacion:</label>
+                                        <label style="float:left; width:120px;">Fecha Inicial:</label>
                                         <input name="fechainicial" id="fechainicial" type="text" style="width:140px; float:left;"/>
-                                        <label style="float:left; width:160px;">Fecha Final Creacion:</label>
+                                        <label style="float:left; width:120px;">Fecha Final:</label>
                                         <input name="fechafinal" id="fechafinal" type="text" style="width:140px; float:left;"/>
                                         <a id="subfilter" class="button-1" href="#" style="float:left; margin-left:50px;">Filtrar</a>
                                     </form>
                                     <form id="login-contact-form" action="<?php echo $base_ordenes; ?>/controllers/process_login.php" method="post" enctype="multipart/form-data">                    
                                         <fieldset>
-                                            <legend>Lista de Ordenes de Compra</legend>
+                                            <legend>Pedidos Recibidos</legend>
                                             <br/>
                                             <table class="sortable" id="sorter">
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>PROVEEDOR</th>
-                                                    <th>FECHA DE CREACION</th>
-                                                    <th>FECHA DE ENTREGA</th>
+                                                    
+                                                    <th>FECHA DE RECEPCION</th>
                                                     <th>ESTADO</th>
                                                     <th>IR</th>
                                                 </tr>
@@ -219,7 +219,7 @@
 <?php                                       } ?>
                                                     <td><?php echo $r['orderID']; ?></td>
                                                     <td><?php echo $r['supplier']; ?></td>
-                                                    <td><?php echo $r['creationDate']; ?></td>
+                                                   
                                                     <td><?php echo $r['deliveryDate']; ?></td>
                                                     <td><?php echo $r['state']; ?></td>
                                                     <td><a href="<?php echo $base_ordenes; ?>/views/orders_lists_update.php?listaid=<?php echo $r['orderListID']; ?>"><img src="<?php echo $base_images; ?>/go.png" alt=""></a></td>
@@ -247,23 +247,12 @@
 <?php                                       }
                                         }                                 
                                             $links = array();
-                                            $estiloselect=" style=\"color:blue\"";
                                             for( $i=1; $i<=$totalPag; $i++)
                                             {
-                                                if($page==$i)
-                                                {
-                                                    if(isset($_GET['key']))
-                                                        $links[] = "<a href=\"?page=$i&key=".$_GET['key']."\"".$estiloselect.">$i</a>";
-                                                    else
-                                                        $links[] = "<a href=\"?page=$i\"".$estiloselect.">$i</a>";
-                                                }
+                                                if(isset($_GET['key']))
+                                                    $links[] = "<a href=\"?page=$i&key=".$_GET['key']."\">$i</a>";
                                                 else
-                                                {
-                                                    if(isset($_GET['key']))
-                                                        $links[] = "<a href=\"?page=$i&key=".$_GET['key']."\">$i</a>";
-                                                    else
-                                                        $links[] = "<a href=\"?page=$i\">$i</a>";   
-                                                }    
+                                                    $links[] = "<a href=\"?page=$i\">$i</a>";
                                             }
                                             echo implode(" - ", $links); ?>
 <?php                                   if($page<$totalPag && $totalPag>1){ 
@@ -279,9 +268,9 @@
                                         </div>
                                             <br/>
                                             <ul>
-                                                <li><a class="button-1" href="<?php echo $base_ordenes; ?>/views/orders_lists_creation.php">Crear Ordenes</a></li>
+                                                <li><a class="button-1" href="<?php echo $base_ordenes; ?>/views/recepcion_creation.php">Ingresar Pedido</a></li>
                                                 <li><a class="button-1" href="<?php echo $base_inicial; ?>/views/index.php">Volver</a></li>                     
-                                            </ul>
+                                            </ul>      
                                         </fieldset>
                                     </form>
                                 </article>

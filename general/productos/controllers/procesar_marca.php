@@ -1,17 +1,18 @@
 <?php
-	
-	include_once("../modulo/request_post.php");
+	$base_general       = "../..";
+	include_once("$base_general/views/request_post.php");
 
 	session_start();
 
 	/* CONEXION BASE DE DATOS */
-	include_once("../modulo/conexion.php");
- 	include_once("../modulo/conexion_mysql.php");
+	include_once("$base_general/data/conexion.php");
+ 	include_once("$base_general/views/conexion_mysql.php");
 	/* FIN CONEXION BASE DE DATOS */
 	
 	$nombre=$_POST["nombre"];
 	$descripcion=$_POST["descripcion"];
 	$id=isset($_POST['id'])?$_POST['id']:'nuevo';
+	$status = isset($_POST['status'])?'1':'0';
 
 	$sql_nombre = "SELECT branch FROM Branchs WHERE branch='$nombre'";
 	$resultado_nombre = mysql_query($sql_nombre) or die(mysql_error());

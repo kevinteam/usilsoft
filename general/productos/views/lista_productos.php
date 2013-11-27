@@ -8,7 +8,9 @@
     include_once($base_general."/data/conexion.php"); 
     include_once($base_general."/views/conexion_mysql.php");
 
-    $query= "SELECT Products.product, Products.description, Branchs.branch, Units.unit, ProductsTypes.productType FROM
+
+
+    $query= "SELECT Products.productID, Products.product, Products.description, Branchs.branch, Units.unit, ProductsTypes.productType FROM
              Products INNER JOIN  Branchs ON Branchs.branchID = Products.branchID 
                       INNER JOIN  Units ON Products.unitID = Units.unitID
                       INNER JOIN  ProductsTypes ON Products.ProductTypeID = ProductsTypes.productTypeID 
@@ -46,6 +48,13 @@
     <script src="<?php echo $base_js; ?>/tms-0.3.js" type="text/javascript"></script>
     <script src="<?php echo $base_js; ?>/tms_presets.js" type="text/javascript"></script>
     <script src="<?php echo $base_js; ?>/scriptSort.js" type="text/javascript"></script>
+    <style>
+        label
+        {
+            padding-top: 0px !important;
+            margin-left: 20%;
+        }
+    </style>
 	<!--[if lt IE 7]>
     <div style=' clear: both; text-align:center; position: relative;'>
         <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
@@ -63,7 +72,7 @@
     <div class="bg_spinner"></div>
 	<div class="extra">
         <!--==============================header=================================-->
-<?php   $pag=4;
+<?php   $pag=5;
         include_once($base_general."/views/header.php");?>
         <!--==============================content================================-->
         <div class="inner">
@@ -94,20 +103,20 @@
                         <?php foreach ($campos as $c) { ?>
                         <tr>
                             
-                             <td><?php echo $c[0]?></td>
-                             <td><?php echo $c[2]?></td>
-                             <td><?php echo $c[4]?></td>
-                             <td><?php echo $c[3]?></td>
                              <td><?php echo $c[1]?></td>
+                             <td><?php echo $c[3]?></td>
+                             <td><?php echo $c[5]?></td>
+                             <td><?php echo $c[4]?></td>
+                             <td><?php echo $c[2]?></td>
                               <td>    
                     <form action="<?php echo $base_productos; ?>/controllers/borrar_marca.php" method="post">
-                        <input value="<?php echo $m['branchID']?>" type="hidden" name="id" /> 
+                        <input value="<?php echo $c['productID']?>" type="hidden" name="id" /> 
                         <input type="image" alt="boton borrar" src="<?php echo $base_images; ?>/delete.png" title="Eliminar"/>
                     </form>
                 </td>
                 <td>
-                    <form action="<?php echo $base_productos; ?>/views/editar_marca.php" method="get">
-                        <input value="<?php echo $m['branchID']?>" type="hidden" name="id" />
+                    <form action="<?php echo $base_productos; ?>/views/editar_producto.php" method="get">
+                        <input value="<?php echo $c['productID']?>" type="hidden" name="id" />
                         <input type="image" alt="boton editar" src="<?php echo $base_images; ?>/edit.png" title="Editar"/>
                     </form>
                 </td>

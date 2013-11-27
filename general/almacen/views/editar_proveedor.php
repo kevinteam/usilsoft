@@ -38,6 +38,13 @@
     <script src="<?php echo $base_js; ?>/jquery.easing.1.3.js" type="text/javascript"></script>
     <script src="<?php echo $base_js; ?>/tms-0.3.js" type="text/javascript"></script>
     <script src="<?php echo $base_js; ?>/tms_presets.js" type="text/javascript"></script>
+    <style>
+        label
+        {
+            padding-top: 0px !important;
+            margin-left: 20%;
+        }
+    </style>
 	<!--[if lt IE 7]>
     <div style=' clear: both; text-align:center; position: relative;'>
         <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
@@ -55,7 +62,7 @@
     <div class="bg_spinner"></div>
 	<div class="extra">
         <!--==============================header=================================-->
-<?php   $pag=4;
+<?php   $pag=5;
         include_once($base_general."/views/header.php");?>
         <!--==============================content================================-->
         <div class="inner">

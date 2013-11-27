@@ -38,6 +38,13 @@
     <script src="<?php echo $base_js; ?>/jquery.easing.1.3.js" type="text/javascript"></script>
     <script src="<?php echo $base_js; ?>/tms-0.3.js" type="text/javascript"></script>
     <script src="<?php echo $base_js; ?>/tms_presets.js" type="text/javascript"></script>
+    <style>
+        label
+        {
+            padding-top: 0px !important;
+            margin-left: 20%;
+        }
+    </style>
 	<!--[if lt IE 7]>
     <div style=' clear: both; text-align:center; position: relative;'>
         <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
@@ -55,7 +62,7 @@
     <div class="bg_spinner"></div>
 	<div class="extra">
         <!--==============================header=================================-->
-<?php   $pag=4;
+<?php   $pag=5;
         include_once($base_general."/views/header.php");?>
         <!--==============================content================================-->
         <div class="inner">
@@ -74,9 +81,14 @@
                              <br>
                             <label for="descripcion"> Descripción : </label>
                             <input type="text" name="descripcion" id="descripcion" placeholder="Ingrese una descripción" required value="<?php echo $m['description']?>"/>
+                            <!--br>
+                            <label for="status"> Estado :</label>
+                            (Marcar para activar)<input type="checkbox" id="status" name='status' <?php if($m['status']==1)echo "checked";?> />
+                            <br-->
                            <?php }?>
                            <br>      
                             <input  class="button-1" type="submit" value="Actualizar Marca"/>
+                            <a class="button-1" href="lista_marcas.php">Regresar a Lista Marcas</a>
                             </fieldset>
                             </form>
                             </div>
